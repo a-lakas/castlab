@@ -1,0 +1,14 @@
+streamlit
+langchain
+unstructured
+openai
+pybind11
+chromadb
+Cython
+git+https://github.com/philferriere/cocoapi.git#egg=pycocotools&subdirectory=PythonAPI
+unstructured[local-inference]
+git+https://github.com/facebookresearch/detectron2.git
+layoutparser[layoutmodels,tesseract]
+pytesseract
+Pillow==9.0.0
+tiktoken
