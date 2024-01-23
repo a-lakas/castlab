@@ -1,1 +1,2 @@
-# factgpt
+# SmartBook AI (OpenAI-FineTune)
+
