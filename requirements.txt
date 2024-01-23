@@ -1,6 +1,7 @@
 streamlit
 langchain==0.0.96
 setuptools
+detectron2
 openai
 pybind11
 chromadb
