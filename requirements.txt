@@ -1,7 +1,7 @@
 streamlit
 langchain==0.0.96
 setuptools
-detectron2
+detectron2 -f https://dl.fbaipublicfiles.com/detectron2/wheels/cu102/torch1.9/index.html
 openai
 pybind11
 chromadb
