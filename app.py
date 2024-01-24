@@ -5,6 +5,7 @@ from langchain import HuggingFaceHub
 from langchain import PromptTemplate, LLMChain
 from dotenv import load_dotenv
 import streamlit as st
+import asyncio
 
 load_dotenv()
 
@@ -42,5 +43,8 @@ async def main(message: str):
 # Streamlit App
 st.title("Falcon 7b Instruct Chat")
 user_input = st.text_input("Ask a question:")
+
+# Create and run the event loop
 if user_input:
-    cl.loop.run_until_complete(main(user_input))
+    loop = asyncio.get_event_loop()
+    loop.run_until_complete(main(user_input))
