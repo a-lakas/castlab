@@ -44,7 +44,11 @@ async def main(message: str):
 st.title("Falcon 7b Instruct Chat")
 user_input = st.text_input("Ask a question:")
 
-# Create and run the event loop
+# Use st.experimental_asyncio to integrate asynchronous code with Streamlit
 if user_input:
-    loop = asyncio.get_event_loop()
-    loop.run_until_complete(main(user_input))
+    st.experimental_asyncio.asyncio_loop(asyncio.get_event_loop())
+    asyncio.ensure_future(main(user_input))
+
+# This ensures that the asynchronous tasks are properly handled in Streamlit
+st.experimental_asyncio.start_sleeping()
+
