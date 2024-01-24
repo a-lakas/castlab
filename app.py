@@ -20,6 +20,9 @@ template = """Question: {question}
 
 Answer: Let's give you a well-informed answer."""
 
+# Initialize Chainlit context
+cl.init_context()
+
 @cl.on_chat_start
 def main():
     elements = [
