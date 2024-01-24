@@ -5,7 +5,6 @@ from langchain import HuggingFaceHub
 from langchain import PromptTemplate, LLMChain
 from dotenv import load_dotenv
 import streamlit as st
-import asyncio
 
 load_dotenv()
 
@@ -44,7 +43,7 @@ async def main(message: str):
 st.title("Falcon 7b Instruct Chat")
 user_input = st.text_input("Ask a question:")
 
-if user_input:
-    result_placeholder = st.empty()
-    result = await main(user_input)
-    result_placeholder.text(result)
+if st.button("Submit"):
+    if user_input:
+        result = main(user_input)
+        st.text(result)
