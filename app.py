@@ -21,21 +21,21 @@ template = """Question: {question}
 Answer: Let's give you a well-informed answer."""
 
 @cl.on_chat_start
-async def main():
+def main():
     elements = [
         cl.Image(name='falcon-llm.jpeg', display='inline', path='../falcon7b-instruct-chat/falcon-llm.jpeg')
     ]
-    await cl.Message(content="Hello there, I am Falcon 7b Instruct. How can I help you?", elements=elements).send()
+    cl.Message(content="Hello there, I am Falcon 7b Instruct. How can I help you?", elements=elements).send()
     prompt = PromptTemplate(template=template, input_variables=['question'])
     llm_chain = LLMChain(prompt=prompt, llm=llm, verbose=True)
 
     cl.user_session.set('llm_chain', llm_chain)
 
 @cl.on_message
-async def main(message: str):
+def main(message: str):
     llm_chain = cl.user_session.get('llm_chain')
 
-    res = await llm_chain.acall(message, callbacks=[cl.AsyncLangchainCallbackHandler()])
+    res = llm_chain.acall(message, callbacks=[cl.AsyncLangchainCallbackHandler()])
 
     return res['text']
 
