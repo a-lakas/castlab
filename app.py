@@ -4,8 +4,6 @@ import langchain
 from langchain import HuggingFaceHub
 from langchain import PromptTemplate, LLMChain
 from dotenv import load_dotenv
-import streamlit as st
-import asyncio
 
 load_dotenv()
 
@@ -13,9 +11,9 @@ HUGGINGFACEHUB_API_TOKEN = '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'
 
 repo_id = 'tiiuae/falcon-7b-instruct'
 
-llm = HuggingFaceHub(huggingfacehub_api_token=HUGGINGFACEHUB_API_TOKEN,
-                     repo_id=repo_id,
-                     model_kwargs={"temperature": 0.6, "max_new_tokens": 500})
+llm =   HuggingFaceHub(huggingfacehub_api_token=HUGGINGFACEHUB_API_TOKEN,
+                       repo_id=repo_id,
+                       model_kwargs={"temperature": 0.6, "max_new_tokens": 500})
 
 template = """Question: {question}
 
@@ -24,7 +22,7 @@ Answer: Let's give you a well-informed answer."""
 @cl.on_chat_start
 async def main():
     elements = [
-        cl.Image(name='falcon-llm.jpeg', display='inline', path='../falcon7b-instruct-chat/falcon-llm.jpeg')
+    cl.Image(name='falcon-llm.jpeg', display='inline', path='../falcon7b-instruct-chat/falcon-llm.jpeg')
     ]
     await cl.Message(content="Hello there, I am Falcon 7b Instruct. How can I help you?", elements=elements).send()
     prompt = PromptTemplate(template=template, input_variables=['question'])
@@ -39,16 +37,3 @@ async def main(message: str):
     res = await llm_chain.acall(message, callbacks=[cl.AsyncLangchainCallbackHandler()])
 
     await cl.Message(content=res['text']).send()
-
-# Streamlit App
-st.title("Falcon 7b Instruct Chat")
-user_input = st.text_input("Ask a question:")
-
-# Use st.experimental_asyncio to integrate asynchronous code with Streamlit
-if user_input:
-    st.experimental_asyncio.asyncio_loop(asyncio.get_event_loop())
-    asyncio.ensure_future(main(user_input))
-
-# This ensures that the asynchronous tasks are properly handled in Streamlit
-st.experimental_asyncio.start_sleeping()
-
