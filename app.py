@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-HUGGINGFACEHUB_API_TOKEN = os.getenv('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')
+HUGGINGFACEHUB_API_TOKEN = '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'
 
 repo_id = 'tiiuae/falcon-7b-instruct'
 
