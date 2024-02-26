@@ -1,2 +1,2 @@
-# SmartBook AI (OpenAI-FineTune)
+# SmartBook AI (Gemma)
 
