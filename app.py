@@ -1,29 +1,27 @@
 import streamlit as st
-import requests
+import requests  # Assuming the device is a web service
 
-API_ENDPOINT = "https://api-inference.huggingface.co/models/google/gemma-7b-it"
-HEADERS = {
-    "Authorization": "Bearer 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",
-    "Content-Type": "application/json"
-}
+# Title of the Streamlit app
+st.title("Device Controller")
 
-def get_response(input_text):
-    data = {
-        "inputs": input_text
-    }
-    response = requests.post(API_ENDPOINT, json=data, headers=HEADERS)
-    if response.status_code == 200:
-        return response.json()[0]['generated_text']
-    else:
-        return "Error: Unable to fetch response from the model."
+# Input fields for IP address, username, and password
+ip_address = st.text_input("IP Address", value="10.101.247.225")
+username = st.text_input("Username")
+password = st.text_input("Password", type="password")
 
-def main():
-    st.title("Chat with Gemma (Google Gemma-7B-IT)")
+# Button to connect to the device
+if st.button("Connect"):
+    # Example connection logic
+    try:
+        # Example of sending a request to the device (replace with actual logic)
+        response = requests.get(f"http://{ip_address}", auth=(username, password))
+        if response.status_code == 200:
+            st.success("Successfully connected to the device")
+            # Display some information about the device
+            st.write(response.json())  # Assuming the device returns JSON data
+        else:
+            st.error(f"Failed to connect: {response.status_code}")
+    except Exception as e:
+        st.error(f"Error: {e}")
 
-    input_text = st.text_input("You:", "")
-    if st.button("Send"):
-        response = get_response(input_text)
-        st.text_area("Gemma:", response, height=200, max_chars=None)
-
-if __name__ == "__main__":
-    main()
+# Additional functionality can be added here (e.g., sending commands to the device, fetching data, etc.)
