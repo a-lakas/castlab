@@ -1,5 +1,5 @@
 import streamlit as st
-import requests  # Assuming the device is a web service
+import paramiko
 
 # Title of the Streamlit app
 st.title("Device Controller")
@@ -11,17 +11,20 @@ password = st.text_input("Password", type="password")
 
 # Button to connect to the device
 if st.button("Connect"):
-    # Example connection logic
     try:
-        # Example of sending a request to the device (replace with actual logic)
-        response = requests.get(f"http://{ip_address}", auth=(username, password))
-        if response.status_code == 200:
-            st.success("Successfully connected to the device")
-            # Display some information about the device
-            st.write(response.json())  # Assuming the device returns JSON data
-        else:
-            st.error(f"Failed to connect: {response.status_code}")
+        # Create SSH client
+        ssh = paramiko.SSHClient()
+        ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+        ssh.connect(ip_address, username=username, password=password)
+
+        # Execute a command (example: 'uname -a')
+        stdin, stdout, stderr = ssh.exec_command('uname -a')
+        output = stdout.read().decode()
+        ssh.close()
+        
+        st.success("Successfully connected to the device")
+        st.write(output)
     except Exception as e:
         st.error(f"Error: {e}")
 
-# Additional functionality can be added here (e.g., sending commands to the device, fetching data, etc.)
+# Additional functionality can be added here (e.g., executing more commands)
