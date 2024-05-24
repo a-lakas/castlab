@@ -1,36 +1,42 @@
 import streamlit as st
-import paramiko
+import subprocess
 
-# Title of the Streamlit app
-st.title("Device Controller")
+def check_connectivity(ip, port):
+    try:
+        # Run the netcat command to check connectivity
+        result = subprocess.run(['nc', '-zv', ip, str(port)], capture_output=True, text=True, timeout=10)
+        return result.stdout if result.returncode == 0 else result.stderr
+    except Exception as e:
+        return str(e)
 
-# Input fields for IP address, username, and password
+# Streamlit app title
+st.title("Device Connectivity Checker")
+
+# Input fields for IP address and port
 ip_address = st.text_input("IP Address", value="10.101.247.225")
+port = st.number_input("Port", value=80, min_value=1, max_value=65535)
+
+# Button to check connectivity
+if st.button("Check Connectivity"):
+    output = check_connectivity(ip_address, port)
+    st.text(output)
+
+# Input fields for username and password
 username = st.text_input("Username")
 password = st.text_input("Password", type="password")
 
-# Button to connect to the device
+# Button to connect to the device (for example, via HTTP)
 if st.button("Connect"):
     try:
-        # Create SSH client
-        ssh = paramiko.SSHClient()
-        ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-        ssh.connect(ip_address, username=username, password=password, timeout=10)
-
-        # Execute a command (example: 'uname -a')
-        stdin, stdout, stderr = ssh.exec_command('uname -a')
-        output = stdout.read().decode()
-        ssh.close()
-        
-        st.success("Successfully connected to the device")
-        st.write(output)
-    except paramiko.SSHException as se:
-        st.error(f"SSH error: {se}")
-    except paramiko.AuthenticationException as ae:
-        st.error(f"Authentication error: {ae}")
-    except paramiko.SSHException as sshException:
-        st.error(f"Unable to establish SSH connection: {sshException}")
-    except paramiko.BadHostKeyException as badHostKeyException:
-        st.error(f"Bad host key: {badHostKeyException}")
+        response = requests.get(f"http://{ip_address}", auth=(username, password), timeout=10)
+        if response.status_code == 200:
+            st.success("Successfully connected to the device")
+            st.write(response.json())  # Assuming the device returns JSON data
+        else:
+            st.error(f"Failed to connect: {response.status_code}")
+    except requests.ConnectionError as ce:
+        st.error(f"Connection error: {ce}")
+    except requests.Timeout as te:
+        st.error(f"Connection timed out: {te}")
     except Exception as e:
         st.error(f"An error occurred: {e}")
