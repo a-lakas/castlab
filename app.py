@@ -15,7 +15,7 @@ if st.button("Connect"):
         # Create SSH client
         ssh = paramiko.SSHClient()
         ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-        ssh.connect(ip_address, username=username, password=password)
+        ssh.connect(ip_address, username=username, password=password, timeout=10)
 
         # Execute a command (example: 'uname -a')
         stdin, stdout, stderr = ssh.exec_command('uname -a')
@@ -24,7 +24,13 @@ if st.button("Connect"):
         
         st.success("Successfully connected to the device")
         st.write(output)
+    except paramiko.SSHException as se:
+        st.error(f"SSH error: {se}")
+    except paramiko.AuthenticationException as ae:
+        st.error(f"Authentication error: {ae}")
+    except paramiko.SSHException as sshException:
+        st.error(f"Unable to establish SSH connection: {sshException}")
+    except paramiko.BadHostKeyException as badHostKeyException:
+        st.error(f"Bad host key: {badHostKeyException}")
     except Exception as e:
-        st.error(f"Error: {e}")
-
-# Additional functionality can be added here (e.g., executing more commands)
+        st.error(f"An error occurred: {e}")
