@@ -1,6 +1,38 @@
 import streamlit as st
+import requests
 import uuid
 
+DEFAULT_USERNAME = "swavaf"
+DEFAULT_PASSWORD = "swavaf@123"
+
+def fetch_data_from_host(ip_address):
+    try:
+        # Define default authentication credentials
+        auth = (DEFAULT_USERNAME, DEFAULT_PASSWORD)
+        
+        # Make the request with authentication
+        response = requests.get(f'http://{ip_address}/endpoint', auth=auth)
+        
+        if response.status_code == 200:
+            return response.text
+        else:
+            return f"Error: {response.status_code}"
+    except Exception as e:
+        return f"Error: {str(e)}"
+
+# Hardcoded IP address
+ip_address = "10.101.247.255"
+
+# Button to trigger the request
+if st.button('Connect Host'):
+    if ip_address:
+        st.write("Connecting...")
+        data = fetch_data_from_host(ip_address)
+        st.write("Response:")
+        st.write(data)
+    else:
+        st.write("Connection failed")
+        
 def main():
     st.set_page_config(page_title="UAEU DGX-1 Portal")
 
