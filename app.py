@@ -1,92 +1,126 @@
-# PySpark Code (in a file named twitter_stream.py)
-from pyspark.sql import SparkSession
-from pyspark.sql.functions import *
-from pyspark.sql.types import *
-
-# Setup SparkSession
-spark = SparkSession.builder \
-    .appName("TwitterStreamingAnalysis") \
-    .getOrCreate()
-
-# Define Schema for Tweets
-schema = StructType([
-    StructField("created_at", StringType(), True),
-    StructField("text", StringType(), True),
-    StructField("user", StructType([
-        StructField("id", LongType(), True),
-        StructField("screen_name", StringType(), True),
-        StructField("followers_count", IntegerType(), True)
-    ]), True)
-])
-
-# Twitter API credentials
-consumer_key = "YOUR_CONSUMER_KEY"
-consumer_secret = "YOUR_CONSUMER_SECRET"
-access_token = "YOUR_ACCESS_TOKEN"
-access_token_secret = "YOUR_ACCESS_TOKEN_SECRET"
-
-# Authenticate to Twitter API
-import tweepy
-
-auth = tweepy.OAuth1UserHandler(consumer_key, consumer_secret, access_token, access_token_secret)
-api = tweepy.API(auth)
-
-# Define function to stream tweets
-class MyStreamListener(tweepy.StreamListener):
-    def __init__(self, output_file):
-        super().__init__()
-        self.output_file = output_file
-
-    def on_status(self, status):
-        try:
-            data = {
-                "created_at": str(status.created_at),
-                "text": status.text,
-                "user": {
-                    "id": status.user.id,
-                    "screen_name": status.user.screen_name,
-                    "followers_count": status.user.followers_count
-                }
-            }
-            # Write data to the output file
-            with open(self.output_file, "a") as file:
-                file.write(str(data) + "\n")
-        except Exception as e:
-            print("Error:", e)
-
-# Start streaming tweets
-def start_streaming(output_file, keywords):
-    myStreamListener = MyStreamListener(output_file)
-    myStream = tweepy.Stream(auth=api.auth, listener=myStreamListener)
-    myStream.filter(track=keywords)
-
-# Streamlit App (in a file named streamlit_app.py)
 import streamlit as st
 
-# Define function to read tweets from the output file
-def read_tweets(file_path):
-    tweets = []
-    with open(file_path, "r") as file:
-        for line in file:
-            tweets.append(eval(line))  # Convert string to dictionary
-    return tweets
-
-# Main Streamlit app
 def main():
-    st.title("Live Twitter Streaming Analysis")
+    st.set_page_config(page_title="UAEU DGX-1 Portal")
 
-    # Start streaming tweets when button is clicked
-    if st.button("Start Streaming"):
-        output_file = "tweets.txt"  # File to store tweets
-        keywords = ['python', 'pyspark', 'data analysis', 'machine learning']
-        start_streaming(output_file, keywords)
+    # Header
+    st.markdown(
+        """
+        <style>
+            .nav-wrapper {
+                background-color: #00acc1 !important;
+            }
+            .brand-logo {
+                color: white !important;
+            }
+            .logged-out a {
+                color: white !important;
+            }
+        </style>
+        """,
+        unsafe_allow_html=True
+    )
 
-    # Display streamed tweets
-    st.subheader("Streamed Tweets")
-    if st.checkbox("Show Tweets"):
-        tweets = read_tweets("tweets.txt")
-        for tweet in tweets:
-            st.write(tweet)
+    st.markdown(
+        """
+        <nav class="nav-wrapper cyan darken-4">
+            <div class="container">
+                <a href="/" class="brand-logo">DGX-1 Portal</a>
+                <a href="#" class="sidenav-trigger" data-target="mobile-links">
+                    <i class="material-icons">menu</i>
+                </a>
+                <ul class="right hide-on-med-and-down">
+                    <li class="logged-out"><a href="/login">Login/Sign Up</a></li>
+                    <li class="logged-out"><a href="/faq">FAQ</a></li>
+                </ul>
+            </div>
+        </nav>
+        """,
+        unsafe_allow_html=True
+    )
+
+    st.markdown(
+        """
+        <ul class="sidenav" id="mobile-links">
+            <li class="logged-out"><a href="/login">Login/Sign Up</a></li>
+            <li class="logged-out"><a href="/faq">FAQ</a></li>
+        </ul>
+        """,
+        unsafe_allow_html=True
+    )
+
+    # Login Form
+    st.markdown(
+        """
+        <section class="section container" style="width: 100%;">
+            <div class="row">
+                <div class="col s12 m5 offset-m1 center">
+                    <div style="margin:15%">
+                        <h2 class="cyan-text text-darken-4 center">Login</h2>
+                        <form id="login_form" action="/login" method="POST">
+                            <div class="input-field">
+                                <input id="login_email" name="login_email" type="email" value="">
+                                <label for="login_email">Your Email</label>
+                            </div>
+                            <div class="input-field">
+                                <input id="login_password" name="login_password" type="password" class="validate">
+                                <label for="login_password">Your Password</label>
+                            </div>
+                            <button class="btn waves-effect waves-light right" type="submit" name="login">Login
+                                <i class="material-icons right">send</i>
+                            </button>
+                            <div>
+                                <a href="/reset_password">Forgot password?</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+        """,
+        unsafe_allow_html=True
+    )
+
+    # Sign up Form
+    st.markdown(
+        """
+        <div class="col s12 m5 center" style="border-left: 1px solid gray;">
+            <div style="margin:10%">
+                <h2 class="cyan-text text-darken-4 center">Sign up</h2>
+                <form id="signup_form" action="/login" method="POST">
+                    <div class="input-field" style="margin-top:30px; margin-bottom:15px;">
+                        <select id="affiliation_selector" name="affiliation_id">
+                            <option value="1">Student</option>
+                            <option value="2">Faculty</option>
+                            <option value="3">Research</option>
+                        </select>
+                        <label>Affiliation</label>
+                    </div>
+                    <div class="input-field">
+                        <input type="text" id="signup_name" name="signup_name" value="">
+                        <label for="signup_name">Your Name</label>
+                    </div>
+                    <div class="input-field">
+                        <input type="email" id="signup_email" name="signup_email" value="">
+                        <label for="signup_email">Your Email</label>
+                    </div>
+                    <div class="input-field">
+                        <input type="password" id="signup_password" name="signup_password" class="validate" value="">
+                        <label for="signup_password">Your Password</label>
+                    </div>
+                    <div class="input-field">
+                        <input type="password" id="signup_confirm-password" name="signup_confirm_password" class="validate" value="">
+                        <label for="signup_password">Confirm Password</label>
+                    </div>
+                    <button class="btn waves-effect waves-light right" type="submit" name="signup">Sign up
+                        <i class="material-icons right">send</i>
+                    </button>
+                </form>
+            </div>
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
 
 if __name__ == "__main__":
     main()
