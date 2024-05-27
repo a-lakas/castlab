@@ -2,6 +2,8 @@ import streamlit as st
 import requests
 import uuid
 import paramiko
+from PIL import Image
+
 
 
 DEFAULT_USERNAME = "swavaf"
