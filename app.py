@@ -94,6 +94,9 @@ def main():
 
     st.markdown("<div class='header'>A100 Portal</div>", unsafe_allow_html=True)
 
+    st.sidebar.image('uaeu.png', caption='', width=300)
+
+
     # Button to trigger the request
     if st.button('Connect Host'):
         if ip_address:
