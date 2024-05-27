@@ -17,11 +17,6 @@ def main():
                 font-weight: bold;
                 margin-bottom: 30px;
             }
-            .container {
-                margin: auto;
-                padding: 20px;
-                max-width: 800px;
-            }
             .form-container {
                 background-color: #f0f0f0;
                 padding: 30px;
@@ -48,7 +43,7 @@ def main():
     st.markdown("<div class='header'>DGX-1 Portal</div>", unsafe_allow_html=True)
 
     # Login Form
-    with st.container():
+    with st.sidebar:
         st.markdown("<div class='form-container'>", unsafe_allow_html=True)
         st.markdown("<h2>Login</h2>", unsafe_allow_html=True)
         login_email = st.text_input("Your Email", key=str(uuid.uuid4()))
@@ -57,8 +52,7 @@ def main():
         st.markdown("<a href='/reset_password'>Forgot password?</a>", unsafe_allow_html=True)
         st.markdown("</div>", unsafe_allow_html=True)
 
-    # Sign up Form
-    with st.container():
+        # Sign up Form
         st.markdown("<div class='form-container'>", unsafe_allow_html=True)
         st.markdown("<h2>Sign up</h2>", unsafe_allow_html=True)
         affiliation = st.selectbox("Affiliation", ["Student", "Faculty", "Research"], key=str(uuid.uuid4()))
