@@ -20,7 +20,6 @@ def ping_server(ip_address):
         
         # Check if the ping was successful
         if result.returncode == 0:
-            fetch_data_from_host(ip_address)
             return "Server is reachable."
         else:
             return "Server is unreachable."
@@ -28,8 +27,7 @@ def ping_server(ip_address):
         return f"Error: {str(e)}"
 
 # Example usage
-ip_address = '192.168.1.1'  # Replace with the IP address of your server
-print(ping_server(ip_address))
+# print(ping_server(ip_address))
 
 # def fetch_data_from_host(ip_address):
 #     try:
@@ -93,7 +91,7 @@ def fetch_data_from_host(ip_address):
 #         return f"Error: {str(e)}"
 
 # Call the function
-print(fetch_data_from_host(ip_address))
+# print(fetch_data_from_host(ip_address))
         
 
         
@@ -151,7 +149,15 @@ def main():
         else:
             st.write("Connection failed")
 
-        
+    # Button to trigger the request
+    if st.button('Ping Server'):
+        if ip_address:
+            st.write("Pinging...")
+            data = fetch_data_from_host(ip_address)
+            st.write("Response:")
+            st.write(data)
+        else:
+            st.write("Pinging failed")
 
     # Login Form
     with st.sidebar:
