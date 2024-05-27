@@ -7,44 +7,44 @@ import paramiko
 DEFAULT_USERNAME = "swavaf"
 DEFAULT_PASSWORD = "swavaf@123"
 # Hardcoded IP address
-ip_address = "10.101.247.255"
-
-# def fetch_data_from_host(ip_address):
-#     try:
-#         # Define default authentication credentials
-#         auth = (DEFAULT_USERNAME, DEFAULT_PASSWORD)
-        
-#         # Make the request with authentication
-#         response = requests.get(f'http://{ip_address}/endpoint', auth=auth)
-        
-#         if response.status_code == 200:
-#             return response.text
-#         else:
-#             return f"Error: {response.status_code}"
-#     except Exception as e:
-#         return f"Error: {str(e)}"
+ip_address = "10.101.247.225"
 
 def fetch_data_from_host(ip_address):
     try:
-        # Create an SSH client instance
-        ssh_client = paramiko.SSHClient()
+        # Define default authentication credentials
+        auth = (DEFAULT_USERNAME, DEFAULT_PASSWORD)
         
-        # Automatically add the host keys
-        ssh_client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+        # Make the request with authentication
+        response = requests.get(f'http://{ip_address}/endpoint', auth=auth)
         
-        # Connect to the SSH server
-        ssh_client.connect(hostname=ip_address, username=DEFAULT_USERNAME, password=DEFAULT_PASSWORD)
+        if response.status_code == 200:
+            return response.text
+        else:
+            return f"Error: {response.status_code}"
+    except Exception as e:
+        return f"Error: {str(e)}"
+
+# def fetch_data_from_host(ip_address):
+#     try:
+#         # Create an SSH client instance
+#         ssh_client = paramiko.SSHClient()
         
-        # Execute a command to fetch data (replace 'your_command' with the actual command you want to run)
-        stdin, stdout, stderr = ssh_client.exec_command('your_command')
+#         # Automatically add the host keys
+#         ssh_client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
         
-        # Read the output from the command
-        data = stdout.read().decode()
+#         # Connect to the SSH server
+#         ssh_client.connect(hostname=ip_address, username=DEFAULT_USERNAME, password=DEFAULT_PASSWORD)
         
-        # Close the SSH connection
-        ssh_client.close()
+#         # Execute a command to fetch data (replace 'your_command' with the actual command you want to run)
+#         stdin, stdout, stderr = ssh_client.exec_command('your_command')
         
-        return data
+#         # Read the output from the command
+#         data = stdout.read().decode()
+        
+#         # Close the SSH connection
+#         ssh_client.close()
+        
+#         return data
         
     except Exception as e:
         return f"Error: {str(e)}"
@@ -52,7 +52,7 @@ def fetch_data_from_host(ip_address):
 
         
 def main():
-    st.set_page_config(page_title="UAEU DGX-1 Portal")
+    st.set_page_config(page_title="UAEU A100 Portal")
 
     # Header
     st.markdown(
@@ -90,7 +90,7 @@ def main():
         ,unsafe_allow_html=True
     )
 
-    st.markdown("<div class='header'>DGX-1 Portal</div>", unsafe_allow_html=True)
+    st.markdown("<div class='header'>A100 Portal</div>", unsafe_allow_html=True)
 
     # Button to trigger the request
     if st.button('Connect Host'):
