@@ -4,6 +4,8 @@ import uuid
 
 DEFAULT_USERNAME = "swavaf"
 DEFAULT_PASSWORD = "swavaf@123"
+# Hardcoded IP address
+ip_address = "10.101.247.255"
 
 def fetch_data_from_host(ip_address):
     try:
@@ -20,18 +22,6 @@ def fetch_data_from_host(ip_address):
     except Exception as e:
         return f"Error: {str(e)}"
 
-# Hardcoded IP address
-ip_address = "10.101.247.255"
-
-# Button to trigger the request
-if st.button('Connect Host'):
-    if ip_address:
-        st.write("Connecting...")
-        data = fetch_data_from_host(ip_address)
-        st.write("Response:")
-        st.write(data)
-    else:
-        st.write("Connection failed")
         
 def main():
     st.set_page_config(page_title="UAEU DGX-1 Portal")
@@ -73,6 +63,16 @@ def main():
     )
 
     st.markdown("<div class='header'>DGX-1 Portal</div>", unsafe_allow_html=True)
+
+    # Button to trigger the request
+    if st.button('Connect Host'):
+        if ip_address:
+            st.write("Connecting...")
+            data = fetch_data_from_host(ip_address)
+            st.write("Response:")
+            st.write(data)
+        else:
+            st.write("Connection failed")
 
     # Login Form
     with st.sidebar:
