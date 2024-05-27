@@ -3,6 +3,9 @@ import requests
 import uuid
 import paramiko
 from PIL import Image
+from requests.exceptions import ConnectionError, Timeout
+
+
 
 
 
@@ -11,20 +14,20 @@ DEFAULT_PASSWORD = "swavaf@123"
 # Hardcoded IP address
 ip_address = "10.101.247.225"
 
-def fetch_data_from_host(ip_address):
-    try:
-        # Define default authentication credentials
-        auth = (DEFAULT_USERNAME, DEFAULT_PASSWORD)
+# def fetch_data_from_host(ip_address):
+#     try:
+#         # Define default authentication credentials
+#         auth = (DEFAULT_USERNAME, DEFAULT_PASSWORD)
         
-        # Make the request with authentication
-        response = requests.get(f'http://{ip_address}/endpoint', auth=auth)
+#         # Make the request with authentication
+#         response = requests.get(f'http://{ip_address}/endpoint', auth=auth)
         
-        if response.status_code == 200:
-            return response.text
-        else:
-            return f"Error: {response.status_code}"
-    except Exception as e:
-        return f"Error: {str(e)}"
+#         if response.status_code == 200:
+#             return response.text
+#         else:
+#             return f"Error: {response.status_code}"
+#     except Exception as e:
+#         return f"Error: {str(e)}"
 
 # def fetch_data_from_host(ip_address):
 #     try:
@@ -48,8 +51,33 @@ def fetch_data_from_host(ip_address):
         
 #         return data
         
+    # except Exception as e:
+    #     return f"Error: {str(e)}"
+
+def fetch_data_from_host(ip_address):
+    try:
+        auth = (DEFAULT_USERNAME, DEFAULT_PASSWORD)
+        retries = 3
+        timeout = 10
+        
+        for attempt in range(retries):
+            try:
+                response = requests.get(f'http://{ip_address}/endpoint', auth=auth, timeout=timeout)
+                
+                if response.status_code == 200:
+                    return response.text
+                else:
+                    return f"Error: {response.status_code}"
+            except (ConnectionError, Timeout) as e:
+                if attempt < retries - 1:
+                    print(f"Attempt {attempt+1} failed. Retrying...")
+                else:
+                    return f"Error: {str(e)}"
     except Exception as e:
         return f"Error: {str(e)}"
+
+# Call the function
+print(fetch_data_from_host(ip_address))
         
 
         
