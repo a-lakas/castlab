@@ -4,15 +4,32 @@ import uuid
 import paramiko
 from PIL import Image
 from requests.exceptions import ConnectionError, Timeout
-
-
-
+import subprocess
 
 
 DEFAULT_USERNAME = "swavaf"
 DEFAULT_PASSWORD = "swavaf@123"
 # Hardcoded IP address
 ip_address = "10.101.247.225"
+
+
+def ping_server(ip_address):
+    try:
+        # Ping the server
+        result = subprocess.run(['ping', '-c', '4', ip_address], stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=10)
+        
+        # Check if the ping was successful
+        if result.returncode == 0:
+            fetch_data_from_host(ip_address)
+            return "Server is reachable."
+        else:
+            return "Server is unreachable."
+    except Exception as e:
+        return f"Error: {str(e)}"
+
+# Example usage
+ip_address = '192.168.1.1'  # Replace with the IP address of your server
+print(ping_server(ip_address))
 
 # def fetch_data_from_host(ip_address):
 #     try:
@@ -128,7 +145,7 @@ def main():
     if st.button('Connect Host'):
         if ip_address:
             st.write("Connecting...")
-            data = fetch_data_from_host(ip_address)
+            data = ping_server(ip_address)
             st.write("Response:")
             st.write(data)
         else:
