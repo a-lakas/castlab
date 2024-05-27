@@ -29,52 +29,51 @@ ip_address = "10.101.247.225"
 #     except Exception as e:
 #         return f"Error: {str(e)}"
 
-# def fetch_data_from_host(ip_address):
-#     try:
-#         # Create an SSH client instance
-#         ssh_client = paramiko.SSHClient()
-        
-#         # Automatically add the host keys
-#         ssh_client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-        
-#         # Connect to the SSH server
-#         ssh_client.connect(hostname=ip_address, username=DEFAULT_USERNAME, password=DEFAULT_PASSWORD)
-        
-#         # Execute a command to fetch data (replace 'your_command' with the actual command you want to run)
-#         stdin, stdout, stderr = ssh_client.exec_command('your_command')
-        
-#         # Read the output from the command
-#         data = stdout.read().decode()
-        
-#         # Close the SSH connection
-#         ssh_client.close()
-        
-#         return data
-        
-    # except Exception as e:
-    #     return f"Error: {str(e)}"
-
 def fetch_data_from_host(ip_address):
     try:
-        auth = (DEFAULT_USERNAME, DEFAULT_PASSWORD)
-        retries = 3
-        timeout = 10
+        # Create an SSH client instance
+        ssh_client = paramiko.SSHClient()
         
-        for attempt in range(retries):
-            try:
-                response = requests.get(f'http://{ip_address}/endpoint', auth=auth, timeout=timeout)
-                
-                if response.status_code == 200:
-                    return response.text
-                else:
-                    return f"Error: {response.status_code}"
-            except (ConnectionError, Timeout) as e:
-                if attempt < retries - 1:
-                    print(f"Attempt {attempt+1} failed. Retrying...")
-                else:
-                    return f"Error: {str(e)}"
+        # Automatically add the host keys
+        ssh_client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+        
+        # Connect to the SSH server
+        ssh_client.connect(hostname=ip_address, username=DEFAULT_USERNAME, password=DEFAULT_PASSWORD)
+        
+        # Execute a command to fetch data (replace 'your_command' with the actual command you want to run)
+        stdin, stdout, stderr = ssh_client.exec_command('your_command')
+        
+        # Read the output from the command
+        data = stdout.read().decode()
+        
+        # Close the SSH connection
+        ssh_client.close()
+        
+        return data
     except Exception as e:
         return f"Error: {str(e)}"
+
+# def fetch_data_from_host(ip_address):
+#     try:
+#         auth = (DEFAULT_USERNAME, DEFAULT_PASSWORD)
+#         retries = 3
+#         timeout = 10
+        
+#         for attempt in range(retries):
+#             try:
+#                 response = requests.get(f'http://{ip_address}/endpoint', auth=auth, timeout=timeout)
+                
+#                 if response.status_code == 200:
+#                     return response.text
+#                 else:
+#                     return f"Error: {response.status_code}"
+#             except (ConnectionError, Timeout) as e:
+#                 if attempt < retries - 1:
+#                     print(f"Attempt {attempt+1} failed. Retrying...")
+#                 else:
+#                     return f"Error: {str(e)}"
+#     except Exception as e:
+#         return f"Error: {str(e)}"
 
 # Call the function
 print(fetch_data_from_host(ip_address))
