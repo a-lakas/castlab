@@ -139,25 +139,28 @@ def main():
     st.sidebar.image('uaeu.png', caption='', width=300)
 
 
-    # Button to trigger the request
-    if st.button('Connect Host'):
-        if ip_address:
-            st.write("Connecting...")
-            data = fetch_data_from_host(ip_address)
-            st.write("Response:")
-            st.write(data)
-        else:
-            st.write("Connection failed")
+# Create a row for horizontal alignment
+row = st.row()
 
-    # Button to trigger the request
-    if st.button('Ping Server'):
-        if ip_address:
-            st.write("Pinging...")
-            data = fetch_data_from_host(ip_address)
-            st.write("Response:")
-            st.write(data)
-        else:
-            st.write("Pinging failed")
+# Button to trigger the request
+if row.button('Connect Host'):
+    if ip_address:
+        st.write("Connecting...")
+        data = fetch_data_from_host(ip_address)
+        st.write("Response:")
+        st.write(data)
+    else:
+        st.write("Connection failed")
+
+# Button to trigger the request
+if row.button('Ping Server'):
+    if ip_address:
+        st.write("Pinging...")
+        data = fetch_data_from_host(ip_address)
+        st.write("Response:")
+        st.write(data)
+    else:
+        st.write("Pinging failed")
 
     # Login Form
     with st.sidebar:
