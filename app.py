@@ -1,26 +1,54 @@
 import streamlit as st
 import requests
 import uuid
+import paramiko
+
 
 DEFAULT_USERNAME = "swavaf"
 DEFAULT_PASSWORD = "swavaf@123"
 # Hardcoded IP address
 ip_address = "10.101.247.255"
 
+# def fetch_data_from_host(ip_address):
+#     try:
+#         # Define default authentication credentials
+#         auth = (DEFAULT_USERNAME, DEFAULT_PASSWORD)
+        
+#         # Make the request with authentication
+#         response = requests.get(f'http://{ip_address}/endpoint', auth=auth)
+        
+#         if response.status_code == 200:
+#             return response.text
+#         else:
+#             return f"Error: {response.status_code}"
+#     except Exception as e:
+#         return f"Error: {str(e)}"
+
 def fetch_data_from_host(ip_address):
     try:
-        # Define default authentication credentials
-        auth = (DEFAULT_USERNAME, DEFAULT_PASSWORD)
+        # Create an SSH client instance
+        ssh_client = paramiko.SSHClient()
         
-        # Make the request with authentication
-        response = requests.get(f'http://{ip_address}/endpoint', auth=auth)
+        # Automatically add the host keys
+        ssh_client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
         
-        if response.status_code == 200:
-            return response.text
-        else:
-            return f"Error: {response.status_code}"
+        # Connect to the SSH server
+        ssh_client.connect(hostname=ip_address, username=DEFAULT_USERNAME, password=DEFAULT_PASSWORD)
+        
+        # Execute a command to fetch data (replace 'your_command' with the actual command you want to run)
+        stdin, stdout, stderr = ssh_client.exec_command('your_command')
+        
+        # Read the output from the command
+        data = stdout.read().decode()
+        
+        # Close the SSH connection
+        ssh_client.close()
+        
+        return data
+        
     except Exception as e:
         return f"Error: {str(e)}"
+        
 
         
 def main():
