@@ -7,120 +7,66 @@ def main():
     st.markdown(
         """
         <style>
-            .nav-wrapper {
+            .header {
+                background-color: #00acc1;
+                padding: 20px;
+                color: white;
+                text-align: center;
+                font-size: 24px;
+                font-weight: bold;
+                margin-bottom: 30px;
+            }
+            .container {
+                margin: auto;
+                padding: 20px;
+                max-width: 800px;
+            }
+            .form-container {
+                background-color: #f0f0f0;
+                padding: 30px;
+                border-radius: 10px;
+                box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            }
+            .input-field label {
+                color: #00acc1 !important;
+            }
+            .input-field input[type="text"]:focus + label,
+            .input-field input[type="password"]:focus + label {
+                color: #00acc1 !important;
+            }
+            .btn {
                 background-color: #00acc1 !important;
-            }
-            .brand-logo {
-                color: white !important;
-            }
-            .logged-out a {
-                color: white !important;
+                margin-top: 20px;
+                margin-bottom: 10px;
             }
         </style>
-        """,
-        unsafe_allow_html=True
+        """
+        ,unsafe_allow_html=True
     )
 
-    st.markdown(
-        """
-        <nav class="nav-wrapper cyan darken-4">
-            <div class="container">
-                <a href="/" class="brand-logo">DGX-1 Portal</a>
-                <a href="#" class="sidenav-trigger" data-target="mobile-links">
-                    <i class="material-icons">menu</i>
-                </a>
-                <ul class="right hide-on-med-and-down">
-                    <li class="logged-out"><a href="/login">Login/Sign Up</a></li>
-                    <li class="logged-out"><a href="/faq">FAQ</a></li>
-                </ul>
-            </div>
-        </nav>
-        """,
-        unsafe_allow_html=True
-    )
-
-    st.markdown(
-        """
-        <ul class="sidenav" id="mobile-links">
-            <li class="logged-out"><a href="/login">Login/Sign Up</a></li>
-            <li class="logged-out"><a href="/faq">FAQ</a></li>
-        </ul>
-        """,
-        unsafe_allow_html=True
-    )
+    st.markdown("<div class='header'>DGX-1 Portal</div>", unsafe_allow_html=True)
 
     # Login Form
-    st.markdown(
-        """
-        <section class="section container" style="width: 100%;">
-            <div class="row">
-                <div class="col s12 m5 offset-m1 center">
-                    <div style="margin:15%">
-                        <h2 class="cyan-text text-darken-4 center">Login</h2>
-                        <form id="login_form" action="/login" method="POST">
-                            <div class="input-field">
-                                <input id="login_email" name="login_email" type="email" value="">
-                                <label for="login_email">Your Email</label>
-                            </div>
-                            <div class="input-field">
-                                <input id="login_password" name="login_password" type="password" class="validate">
-                                <label for="login_password">Your Password</label>
-                            </div>
-                            <button class="btn waves-effect waves-light right" type="submit" name="login">Login
-                                <i class="material-icons right">send</i>
-                            </button>
-                            <div>
-                                <a href="/reset_password">Forgot password?</a>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </section>
-        """,
-        unsafe_allow_html=True
-    )
+    with st.container():
+        st.markdown("<div class='form-container'>", unsafe_allow_html=True)
+        st.markdown("<h2>Login</h2>", unsafe_allow_html=True)
+        login_email = st.text_input("Your Email")
+        login_password = st.text_input("Your Password", type="password")
+        login_button = st.button("Login")
+        st.markdown("<a href='/reset_password'>Forgot password?</a>", unsafe_allow_html=True)
+        st.markdown("</div>", unsafe_allow_html=True)
 
     # Sign up Form
-    st.markdown(
-        """
-        <div class="col s12 m5 center" style="border-left: 1px solid gray;">
-            <div style="margin:10%">
-                <h2 class="cyan-text text-darken-4 center">Sign up</h2>
-                <form id="signup_form" action="/login" method="POST">
-                    <div class="input-field" style="margin-top:30px; margin-bottom:15px;">
-                        <select id="affiliation_selector" name="affiliation_id">
-                            <option value="1">Student</option>
-                            <option value="2">Faculty</option>
-                            <option value="3">Research</option>
-                        </select>
-                        <label>Affiliation</label>
-                    </div>
-                    <div class="input-field">
-                        <input type="text" id="signup_name" name="signup_name" value="">
-                        <label for="signup_name">Your Name</label>
-                    </div>
-                    <div class="input-field">
-                        <input type="email" id="signup_email" name="signup_email" value="">
-                        <label for="signup_email">Your Email</label>
-                    </div>
-                    <div class="input-field">
-                        <input type="password" id="signup_password" name="signup_password" class="validate" value="">
-                        <label for="signup_password">Your Password</label>
-                    </div>
-                    <div class="input-field">
-                        <input type="password" id="signup_confirm-password" name="signup_confirm_password" class="validate" value="">
-                        <label for="signup_password">Confirm Password</label>
-                    </div>
-                    <button class="btn waves-effect waves-light right" type="submit" name="signup">Sign up
-                        <i class="material-icons right">send</i>
-                    </button>
-                </form>
-            </div>
-        </div>
-        """,
-        unsafe_allow_html=True
-    )
+    with st.container():
+        st.markdown("<div class='form-container'>", unsafe_allow_html=True)
+        st.markdown("<h2>Sign up</h2>", unsafe_allow_html=True)
+        affiliation = st.selectbox("Affiliation", ["Student", "Faculty", "Research"])
+        signup_name = st.text_input("Your Name")
+        signup_email = st.text_input("Your Email")
+        signup_password = st.text_input("Your Password", type="password")
+        signup_confirm_password = st.text_input("Confirm Password", type="password")
+        signup_button = st.button("Sign up")
+        st.markdown("</div>", unsafe_allow_html=True)
 
 if __name__ == "__main__":
     main()
