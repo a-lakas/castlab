@@ -145,7 +145,7 @@ def main():
     if st.button('Connect Host'):
         if ip_address:
             st.write("Connecting...")
-            data = ping_server(ip_address)
+            data = fetch_data_from_host(ip_address)
             st.write("Response:")
             st.write(data)
         else:
