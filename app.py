@@ -8,8 +8,10 @@ import subprocess
 import pyrebase
 
 DEFAULT_USERNAME = "swavaf"
-DEFAULT_PASSWORD = "swavaf@123"
-ip_address = "10.101.247.225"
+# DEFAULT_PASSWORD = "swavaf@123"
+DEFAULT_PASSWORD = "123456"
+# ip_address = "10.101.247.225"
+ip_address = "10.90.216.26"
 
 # Firebase configuration
 firebaseConfig = {
