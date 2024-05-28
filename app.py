@@ -114,7 +114,7 @@ def main():
             except:
                 st.error("Invalid email or password")
 
-        st.markdown("<a href='#' id='forgot-password-link'>Forgot password?</a>", unsafe_allow_html=True)
+        # st.markdown("<a href='#' id='forgot-password-link'>Forgot password?</a>", unsafe_allow_html=True)
 
         if st.sidebar.button("Forgot password?"):
             st.session_state.show_reset_form = True
