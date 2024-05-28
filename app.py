@@ -160,7 +160,7 @@ def main():
     if login:
         try:
             user = auth.sign_in_with_email_and_password(login_email, login_password)
-            st.sidebar.success("Successfully logged in!")  
+            st.success("Successfully logged in!")  
             user_data = db.child("cast_lab_users").child(user['localId']).get().val()
             status = user_data.get("status")
             if status == "1":
@@ -191,7 +191,7 @@ def main():
                         st.write(data)
                     else:
                         st.write("Connection failed")
-                manage = st.sidebar.checkbox('Manage')
+                manage = st.checkbox('Manage')
                 if manage:
                     try:
                         user_data = db.child("cast_lab_users").get().val()
