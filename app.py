@@ -92,18 +92,7 @@ def main():
 
     st.markdown("<div class='header'>A100 Portal</div>", unsafe_allow_html=True)
     st.sidebar.image('uaeu.png', caption='', width=300)
-    st.write("IP address - 10.101.247.225")
-    st.write("Username - swavaf")
-    st.write("Password - swavaf@123")
 
-    if st.button('Connect Host'):
-        if ip_address:
-            st.write("Connecting...")
-            data = fetch_data_from_host(ip_address)
-            st.write("Response:")
-            st.write(data)
-        else:
-            st.write("Connection failed")
 
     with st.sidebar:
         st.markdown("<div class='form-container'>", unsafe_allow_html=True)
@@ -116,6 +105,18 @@ def main():
             try:
                 user = auth.sign_in_with_email_and_password(login_email, login_password)
                 st.success("Successfully logged in!")
+                st.write("IP address - 10.101.247.225")
+                st.write("Username - swavaf")
+                st.write("Password - swavaf@123")
+                if st.button('Connect Host'):
+                    if ip_address:
+                        st.write("Connecting...")
+                        data = fetch_data_from_host(ip_address)
+                        st.write("Response:")
+                        st.write(data)
+                    else:
+                        st.write("Connection failed")
+                
             except:
                 st.error("Invalid email or password")
 
