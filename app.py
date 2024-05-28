@@ -108,9 +108,8 @@ def main():
     with st.sidebar:
         st.markdown("<div class='form-container'>", unsafe_allow_html=True)
         st.markdown("<h2>Login</h2>", unsafe_allow_html=True)
-        login_email = st.text_input("Your Email", key=str(uuid.uuid4()))
-        login_password = st.text_input("Your Password", type="password", key=str(uuid.uuid4()))
-        # login_button = st.button("Login", key=str(uuid.uuid4()))
+        login_email = st.sidebar.text_input('Please enter your email address', value="admin@cd3.com", disabled=False)
+        login_password = st.sidebar.text_input('Please enter your password',type = 'password', value="admin@123", disabled=False)
         login = st.sidebar.checkbox('Login')
 
         if login:
