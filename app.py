@@ -174,7 +174,7 @@ def main():
                         st.write(data)
                     else:
                         st.write("Connection failed")
-            elif status == "0"
+            elif status == "0":
                 st.markdown("**User not verified. Please wait for verification.**")
         except:
                 st.error("Invalid email or password")
