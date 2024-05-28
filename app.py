@@ -108,15 +108,6 @@ def main():
         login_password = st.sidebar.text_input('Please enter your password',type = 'password', value="admin@castlab", disabled=False)
         login = st.sidebar.checkbox('Login')
 
-        if login:
-            try:
-                user = auth.sign_in_with_email_and_password(login_email, login_password)
-                st.success("Successfully logged in!")     
-                user_data = db.child("cast_lab_users").child(user['localId']).get().val()
-                st.write("User Data:", user_data)
-            except:
-                st.error("Invalid email or password")
-
         # st.markdown("<a href='#' id='forgot-password-link'>Forgot password?</a>", unsafe_allow_html=True)
 
         if st.sidebar.button("Forgot password?"):
@@ -165,6 +156,12 @@ def main():
         st.markdown("</div>", unsafe_allow_html=True)
         
     if login:
+        try:
+            user = auth.sign_in_with_email_and_password(login_email, login_password)
+            st.sidebar.success("Successfully logged in!")  
+            user_data = db.child("cast_lab_users").child(user['localId']).get().val()
+            status = user_data.get("status")
+            st.write(status)
             st.write("IP address - 10.101.247.225")
             st.write("Username - swavaf")
             st.write("Password - swavaf@123")
@@ -176,6 +173,8 @@ def main():
                     st.write(data)
                 else:
                     st.write("Connection failed")
+        except:
+                st.error("Invalid email or password")
 
 if __name__ == "__main__":
     main()
