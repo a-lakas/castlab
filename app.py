@@ -152,7 +152,7 @@ def main():
                         "userid": user['localId'],
                         "name": signup_name,
                         "email": signup_email,
-                        "affiliation": affiliation
+                        "affiliation": affiliation,
                         "status": "0"
                     })
                 except:
