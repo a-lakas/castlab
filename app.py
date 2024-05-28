@@ -26,23 +26,7 @@ def ping_server(ip_address):
     except Exception as e:
         return f"Error: {str(e)}"
 
-# Example usage
-# print(ping_server(ip_address))
 
-# def fetch_data_from_host(ip_address):
-#     try:
-#         # Define default authentication credentials
-#         auth = (DEFAULT_USERNAME, DEFAULT_PASSWORD)
-        
-#         # Make the request with authentication
-#         response = requests.get(f'http://{ip_address}/endpoint', auth=auth)
-        
-#         if response.status_code == 200:
-#             return response.text
-#         else:
-#             return f"Error: {response.status_code}"
-#     except Exception as e:
-#         return f"Error: {str(e)}"
 
 def fetch_data_from_host(ip_address):
     try:
@@ -67,31 +51,6 @@ def fetch_data_from_host(ip_address):
         return data
     except Exception as e:
         return f"Error: {str(e)}"
-
-# def fetch_data_from_host(ip_address):
-#     try:
-#         auth = (DEFAULT_USERNAME, DEFAULT_PASSWORD)
-#         retries = 3
-#         timeout = 10
-        
-#         for attempt in range(retries):
-#             try:
-#                 response = requests.get(f'http://{ip_address}/endpoint', auth=auth, timeout=timeout)
-                
-#                 if response.status_code == 200:
-#                     return response.text
-#                 else:
-#                     return f"Error: {response.status_code}"
-#             except (ConnectionError, Timeout) as e:
-#                 if attempt < retries - 1:
-#                     print(f"Attempt {attempt+1} failed. Retrying...")
-#                 else:
-#                     return f"Error: {str(e)}"
-#     except Exception as e:
-#         return f"Error: {str(e)}"
-
-# Call the function
-# print(fetch_data_from_host(ip_address))
         
 
         
@@ -138,6 +97,9 @@ def main():
 
     st.sidebar.image('uaeu.png', caption='', width=300)
 
+    st.write("IP address - 10.101.247.225")
+    st.write("Username - swavaf")
+    st.write("Password - swavaf@123")
 
     if st.button('Connect Host'):
         if ip_address:
@@ -148,15 +110,15 @@ def main():
         else:
             st.write("Connection failed")
 
-    # Button to trigger the request
-    if st.button('Ping Server'):
-        if ip_address:
-            st.write("Pinging...")
-            data = fetch_data_from_host(ip_address)
-            st.write("Response:")
-            st.write(data)
-        else:
-            st.write("Pinging failed") 
+    # # Button to trigger the request
+    # if st.button('Ping Server'):
+    #     if ip_address:
+    #         st.write("Pinging...")
+    #         data = fetch_data_from_host(ip_address)
+    #         st.write("Response:")
+    #         st.write(data)
+    #     else:
+    #         st.write("Pinging failed") 
             
     # Login Form
     with st.sidebar:
