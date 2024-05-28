@@ -51,6 +51,12 @@ def fetch_data_from_host(ip_address):
     except Exception as e:
         return f"Error: {str(e)}"
 
+def reset_password(email):
+    try:
+        auth.send_password_reset_email(email)
+        return "Password reset email sent successfully"
+    except:
+        return "Error: Unable to send password reset email"
 
 def main():
     st.set_page_config(page_title="UAEU A100 Portal")
@@ -107,10 +113,25 @@ def main():
                 st.success("Successfully logged in!")            
             except:
                 st.error("Invalid email or password")
+
+        st.markdown("<a href='#' id='forgot-password-link'>Forgot password?</a>", unsafe_allow_html=True)
+
+        if st.sidebar.button("Forgot password?"):
+            st.session_state.show_reset_form = True
+
+        if 'show_reset_form' not in st.session_state:
+            st.session_state.show_reset_form = False
+
+        if st.session_state.show_reset_form:
+            st.markdown("<h2>Reset Password</h2>", unsafe_allow_html=True)
+            reset_email = st.sidebar.text_input('Enter your email to reset password', value="", disabled=False)
+            if st.sidebar.button("Send reset email"):
+                message = reset_password(reset_email)
+                st.sidebar.write(message)
         
 
-        st.markdown("<a href='/reset_password'>Forgot password?</a>", unsafe_allow_html=True)
-        st.markdown("</div>", unsafe_allow_html=True)
+        # st.markdown("<a href='/reset_password'>Forgot password?</a>", unsafe_allow_html=True)
+        # st.markdown("</div>", unsafe_allow_html=True)
 
         # st.markdown("<div class='form-container'>", unsafe_allow_html=True)
         st.markdown("<h2>Sign up</h2>", unsafe_allow_html=True)
