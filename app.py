@@ -204,20 +204,20 @@ def main():
                 st.error("Invalid email or password")
 
 def display_user_data(user_data):
-    st.write("## User Data")
+    st.write("## User Details")
     for user_id, data in user_data.items():
         st.write(f"**User ID:** {user_id}")
         st.write(f"**Name:** {data['name']}")
         st.write(f"**Affiliation:** {data['affiliation']}")
         st.write(f"**Email:** {data['email']}")
         st.write(f"**Status:** {data['status']}")
-        if st.checkbox('Approve'):
+        if st.checkbox('Approve {data['name']}'):
             # Approve user logic here
-            st.write(f"Please confirm for this User {user_id} approvel")
+            st.write(f"Please confirm for this User {data['name']} approvel")
             st.button("Confirm Approve")
-        if st.checkbox('Delete'):
+        if st.checkbox('Delete {data['name']}'):
             # Delete user logic here
-            st.write(f"Do you want this User {user_id} delete?")
+            st.write(f"Do you want this User {data['name']} delete?")
             st.button("Confirm Delete")
         st.write("---")
         
