@@ -12,15 +12,15 @@ DEFAULT_PASSWORD = "swavaf@123"
 ip_address = "10.101.247.225"
 
 # Firebase configuration
-firebase_config = {
-    "apiKey": "YOUR_API_KEY",
-    "authDomain": "YOUR_PROJECT_ID.firebaseapp.com",
-    "databaseURL": "https://YOUR_PROJECT_ID.firebaseio.com",
-    "projectId": "YOUR_PROJECT_ID",
-    "storageBucket": "YOUR_PROJECT_ID.appspot.com",
-    "messagingSenderId": "YOUR_MESSAGING_SENDER_ID",
-    "appId": "YOUR_APP_ID",
-    "measurementId": "YOUR_MEASUREMENT_ID"
+firebaseConfig = {
+    'apiKey': "AIzaSyC_1yhveazgVtX-hfmZh6OwFGvODNgCgG4",
+    'authDomain': "loginwithstreamlit.firebaseapp.com",
+    'projectId': "loginwithstreamlit",
+    'databaseURL': "https://loginwithstreamlit-default-rtdb.firebaseio.com",
+    'storageBucket': "loginwithstreamlit.appspot.com",
+    'messagingSenderId': "286638028806",
+    'appId': "1:286638028806:web:931ff9cffb9421e4b42b87",
+    'measurementId': "G-SFTNJ19HS6"
 }
 
 # Initialize Firebase
