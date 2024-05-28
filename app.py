@@ -110,9 +110,10 @@ def main():
         st.markdown("<h2>Login</h2>", unsafe_allow_html=True)
         login_email = st.text_input("Your Email", key=str(uuid.uuid4()))
         login_password = st.text_input("Your Password", type="password", key=str(uuid.uuid4()))
-        login_button = st.button("Login", key=str(uuid.uuid4()))
+        # login_button = st.button("Login", key=str(uuid.uuid4()))
+        login = st.sidebar.checkbox('Login')
 
-        if login_button:
+        if login:
             try:
                 user = auth.sign_in_with_email_and_password(login_email, login_password)
                 st.success("Successfully logged in!")
