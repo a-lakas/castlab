@@ -161,18 +161,21 @@ def main():
             st.sidebar.success("Successfully logged in!")  
             user_data = db.child("cast_lab_users").child(user['localId']).get().val()
             status = user_data.get("status")
-            st.write(status)
-            st.write("IP address - 10.101.247.225")
-            st.write("Username - swavaf")
-            st.write("Password - swavaf@123")
-            if st.button('Connect Host'):
-                if ip_address:
-                    st.write("Connecting...")
-                    data = fetch_data_from_host(ip_address)
-                    st.write("Response:")
-                    st.write(data)
-                else:
-                    st.write("Connection failed")
+            if status == "1":
+                st.write(status)
+                st.write("IP address - 10.101.247.225")
+                st.write("Username - swavaf")
+                st.write("Password - swavaf@123")
+                if st.button('Connect Host'):
+                    if ip_address:
+                        st.write("Connecting...")
+                        data = fetch_data_from_host(ip_address)
+                        st.write("Response:")
+                        st.write(data)
+                    else:
+                        st.write("Connection failed")
+            elif status == "0"
+                st.markdown("**User not verified. Please wait for verification.**")
         except:
                 st.error("Invalid email or password")
 
