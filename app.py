@@ -195,12 +195,23 @@ def main():
                 if manage:
                     try:
                         user_data = db.child("cast_lab_users").get().val()
-                        st.write(user_data)
+                        # st.write(user_data)
+                        display_user_data(user_data)
                     except:
                         st.error("Invalid email or password")
                         
         except:
                 st.error("Invalid email or password")
 
+def display_user_data(user_data):
+    st.write("## User Data")
+    for user_id, data in user_data.items():
+        st.write(f"**User ID:** {user_id}")
+        st.write(f"**Name:** {data['name']}")
+        st.write(f"**Affiliation:** {data['affiliation']}")
+        st.write(f"**Email:** {data['email']}")
+        st.write(f"**Status:** {data['status']}")
+        st.write("---")
+        
 if __name__ == "__main__":
     main()
