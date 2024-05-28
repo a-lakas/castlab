@@ -211,13 +211,13 @@ def display_user_data(user_data):
         st.write(f"**Affiliation:** {data['affiliation']}")
         st.write(f"**Email:** {data['email']}")
         st.write(f"**Status:** {data['status']}")
-        if st.checkbox('Approve {data['name']}'):
+        if st.checkbox('Approve {user_id}'):
             # Approve user logic here
-            st.write(f"Please confirm for this User {data['name']} approvel")
+            st.write(f"Please confirm for this User approvel")
             st.button("Confirm Approve")
-        if st.checkbox('Delete {data['name']}'):
+        if st.checkbox('Delete {user_id}'):
             # Delete user logic here
-            st.write(f"Do you want this User {data['name']} delete?")
+            st.write(f"Do you want this User delete?")
             st.button("Confirm Delete")
         st.write("---")
         
