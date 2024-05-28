@@ -111,7 +111,9 @@ def main():
         if login:
             try:
                 user = auth.sign_in_with_email_and_password(login_email, login_password)
-                st.success("Successfully logged in!")            
+                st.success("Successfully logged in!")     
+                user_data = db.child("cast_lab_users").child(user['localId']).get().val()
+                st.write("User Data:", user_data)
             except:
                 st.error("Invalid email or password")
 
