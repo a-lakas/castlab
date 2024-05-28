@@ -114,10 +114,10 @@ def main():
 
         st.markdown("<div class='form-container'>", unsafe_allow_html=True)
         st.markdown("<h2>Sign up</h2>", unsafe_allow_html=True)
-        affiliation = st.selectbox("Affiliation", ["Student", "Faculty", "Research"], key=str(uuid.uuid4()))
+        affiliation = st.selectbox("Affiliation", ["Student", "Faculty", "Research"])
         signup_name = st.sidebar.text_input('Your Name', value="", disabled=False)
         signup_email = st.sidebar.text_input('Your Email', value="", disabled=False)
-        signup_password = st.sidebar.text_input('Your Password', type="password", value="admin@cd3.com", disabled=False)
+        signup_password = st.sidebar.text_input('Your Password', type="password", value="", disabled=False)
         signup_confirm_password = st.sidebar.text_input('Confirm Password',type = 'password', value="", disabled=False)
         signup_button = st.button("Sign up", key=str(uuid.uuid4()))
 
