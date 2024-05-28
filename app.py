@@ -104,19 +104,7 @@ def main():
         if login:
             try:
                 user = auth.sign_in_with_email_and_password(login_email, login_password)
-                st.success("Successfully logged in!")
-                st.write("IP address - 10.101.247.225")
-                st.write("Username - swavaf")
-                st.write("Password - swavaf@123")
-                if st.button('Connect Host'):
-                    if ip_address:
-                        st.write("Connecting...")
-                        data = fetch_data_from_host(ip_address)
-                        st.write("Response:")
-                        st.write(data)
-                    else:
-                        st.write("Connection failed")
-                
+                st.success("Successfully logged in!")            
             except:
                 st.error("Invalid email or password")
         
@@ -149,6 +137,14 @@ def main():
             st.write("IP address - 10.101.247.225")
             st.write("Username - swavaf")
             st.write("Password - swavaf@123")
+            if st.button('Connect Host'):
+                if ip_address:
+                    st.write("Connecting...")
+                    data = fetch_data_from_host(ip_address)
+                    st.write("Response:")
+                    st.write(data)
+                else:
+                    st.write("Connection failed")
 
 if __name__ == "__main__":
     main()
