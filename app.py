@@ -5,20 +5,32 @@ import paramiko
 from PIL import Image
 from requests.exceptions import ConnectionError, Timeout
 import subprocess
-
+import pyrebase
 
 DEFAULT_USERNAME = "swavaf"
 DEFAULT_PASSWORD = "swavaf@123"
-# Hardcoded IP address
 ip_address = "10.101.247.225"
+
+# Firebase configuration
+firebase_config = {
+    "apiKey": "YOUR_API_KEY",
+    "authDomain": "YOUR_PROJECT_ID.firebaseapp.com",
+    "databaseURL": "https://YOUR_PROJECT_ID.firebaseio.com",
+    "projectId": "YOUR_PROJECT_ID",
+    "storageBucket": "YOUR_PROJECT_ID.appspot.com",
+    "messagingSenderId": "YOUR_MESSAGING_SENDER_ID",
+    "appId": "YOUR_APP_ID",
+    "measurementId": "YOUR_MEASUREMENT_ID"
+}
+
+# Initialize Firebase
+firebase = pyrebase.initialize_app(firebase_config)
+auth = firebase.auth()
 
 
 def ping_server(ip_address):
     try:
-        # Ping the server
         result = subprocess.run(['ping', '-c', '4', ip_address], stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=10)
-        
-        # Check if the ping was successful
         if result.returncode == 0:
             return "Server is reachable."
         else:
@@ -27,37 +39,22 @@ def ping_server(ip_address):
         return f"Error: {str(e)}"
 
 
-
 def fetch_data_from_host(ip_address):
     try:
-        # Create an SSH client instance
         ssh_client = paramiko.SSHClient()
-        
-        # Automatically add the host keys
         ssh_client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-        
-        # Connect to the SSH server
         ssh_client.connect(hostname=ip_address, username=DEFAULT_USERNAME, password=DEFAULT_PASSWORD)
-        
-        # Execute a command to fetch data (replace 'your_command' with the actual command you want to run)
         stdin, stdout, stderr = ssh_client.exec_command('your_command')
-        
-        # Read the output from the command
         data = stdout.read().decode()
-        
-        # Close the SSH connection
         ssh_client.close()
-        
         return data
     except Exception as e:
         return f"Error: {str(e)}"
-        
 
-        
+
 def main():
     st.set_page_config(page_title="UAEU A100 Portal")
 
-    # Header
     st.markdown(
         """
         <style>
@@ -90,13 +87,11 @@ def main():
             }
         </style>
         """
-        ,unsafe_allow_html=True
+        , unsafe_allow_html=True
     )
 
     st.markdown("<div class='header'>A100 Portal</div>", unsafe_allow_html=True)
-
     st.sidebar.image('uaeu.png', caption='', width=300)
-
     st.write("IP address - 10.101.247.225")
     st.write("Username - swavaf")
     st.write("Password - swavaf@123")
@@ -110,27 +105,23 @@ def main():
         else:
             st.write("Connection failed")
 
-    # # Button to trigger the request
-    # if st.button('Ping Server'):
-    #     if ip_address:
-    #         st.write("Pinging...")
-    #         data = fetch_data_from_host(ip_address)
-    #         st.write("Response:")
-    #         st.write(data)
-    #     else:
-    #         st.write("Pinging failed") 
-            
-    # Login Form
     with st.sidebar:
         st.markdown("<div class='form-container'>", unsafe_allow_html=True)
         st.markdown("<h2>Login</h2>", unsafe_allow_html=True)
         login_email = st.text_input("Your Email", key=str(uuid.uuid4()))
         login_password = st.text_input("Your Password", type="password", key=str(uuid.uuid4()))
         login_button = st.button("Login", key=str(uuid.uuid4()))
+
+        if login_button:
+            try:
+                user = auth.sign_in_with_email_and_password(login_email, login_password)
+                st.success("Successfully logged in!")
+            except:
+                st.error("Invalid email or password")
+
         st.markdown("<a href='/reset_password'>Forgot password?</a>", unsafe_allow_html=True)
         st.markdown("</div>", unsafe_allow_html=True)
 
-        # Sign up Form
         st.markdown("<div class='form-container'>", unsafe_allow_html=True)
         st.markdown("<h2>Sign up</h2>", unsafe_allow_html=True)
         affiliation = st.selectbox("Affiliation", ["Student", "Faculty", "Research"], key=str(uuid.uuid4()))
@@ -139,6 +130,17 @@ def main():
         signup_password = st.text_input("Your Password", type="password", key=str(uuid.uuid4()))
         signup_confirm_password = st.text_input("Confirm Password", type="password", key=str(uuid.uuid4()))
         signup_button = st.button("Sign up", key=str(uuid.uuid4()))
+
+        if signup_button:
+            if signup_password == signup_confirm_password:
+                try:
+                    user = auth.create_user_with_email_and_password(signup_email, signup_password)
+                    st.success("Successfully signed up!")
+                except:
+                    st.error("Failed to create account")
+            else:
+                st.error("Passwords do not match")
+
         st.markdown("</div>", unsafe_allow_html=True)
 
 if __name__ == "__main__":
