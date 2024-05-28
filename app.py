@@ -162,7 +162,7 @@ def main():
             user_data = db.child("cast_lab_users").child(user['localId']).get().val()
             status = user_data.get("status")
             if status == "1":
-                st.write(status)
+                # st.write(status)
                 st.write("IP address - 10.101.247.225")
                 st.write("Username - swavaf")
                 st.write("Password - swavaf@123")
