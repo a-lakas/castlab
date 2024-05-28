@@ -119,7 +119,7 @@ def main():
         signup_email = st.sidebar.text_input('Your Email', value="", disabled=False)
         signup_password = st.sidebar.text_input('Your Password', type="password", value="", disabled=False)
         signup_confirm_password = st.sidebar.text_input('Confirm Password',type = 'password', value="", disabled=False)
-        signup_button = st.button("Sign up", key=str(uuid.uuid4()))
+        signup_button = st.button("Sign up")
 
         if signup_button:
             if signup_password == signup_confirm_password:
