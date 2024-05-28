@@ -178,6 +178,27 @@ def main():
                         st.write("Connection failed")
             elif status == "0":
                 st.markdown("**User not verified. Please wait for verification.**")
+            elif status == "2":
+                # st.write(status)
+                st.write("IP address - 10.101.247.225")
+                st.write("Username - swavaf")
+                st.write("Password - swavaf@123")
+                if st.button('Connect Host'):
+                    if ip_address:
+                        st.write("Connecting...")
+                        data = fetch_data_from_host(ip_address)
+                        st.write("Response:")
+                        st.write(data)
+                    else:
+                        st.write("Connection failed")
+                manage = st.sidebar.checkbox('Manage')
+                if manage:
+                    try:
+                        user_data = db.child("cast_lab_users").get().val()
+                        st.write(user_data)
+                    except:
+                        st.error("Invalid email or password")
+                        
         except:
                 st.error("Invalid email or password")
 
