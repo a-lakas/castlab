@@ -26,6 +26,7 @@ firebaseConfig = {
 # Initialize Firebase
 firebase = pyrebase.initialize_app(firebaseConfig)
 auth = firebase.auth()
+db = firebase.database()
 
 
 def ping_server(ip_address):
@@ -147,6 +148,13 @@ def main():
                 try:
                     user = auth.create_user_with_email_and_password(signup_email, signup_password)
                     st.success("Successfully signed up!")
+                    db.child("cast_lab_users").child(user['localId']).set({
+                        "userid": user['localId'],
+                        "name": signup_name,
+                        "email": signup_email,
+                        "affiliation": affiliation
+                        "status": "0"
+                    })
                 except:
                     st.error("Failed to create account")
             else:
