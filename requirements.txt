@@ -1,4 +1,4 @@
 streamlit
-tweepy 
+pyrebase4 
 pyspark
 paramiko
