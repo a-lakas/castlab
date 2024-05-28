@@ -119,6 +119,7 @@ def main():
                 
             except:
                 st.error("Invalid email or password")
+        
 
         st.markdown("<a href='/reset_password'>Forgot password?</a>", unsafe_allow_html=True)
         st.markdown("</div>", unsafe_allow_html=True)
@@ -143,6 +144,11 @@ def main():
                 st.error("Passwords do not match")
 
         st.markdown("</div>", unsafe_allow_html=True)
+        
+    if login:
+            st.write("IP address - 10.101.247.225")
+            st.write("Username - swavaf")
+            st.write("Password - swavaf@123")
 
 if __name__ == "__main__":
     main()
