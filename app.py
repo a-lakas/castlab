@@ -9,7 +9,7 @@ import pyrebase
 
 DEFAULT_USERNAME = "swavaf"
 DEFAULT_PASSWORD = "swavaf@123"
-ip_address = "swavaf@10.101.247.225"
+ip_address = "10.101.247.225"
 
 
 # Firebase configuration
