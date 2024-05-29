@@ -6,6 +6,8 @@ from PIL import Image
 from requests.exceptions import ConnectionError, Timeout
 import subprocess
 import pyrebase
+from datetime import datetime
+
 
 DEFAULT_USERNAME = "swavaf"
 DEFAULT_PASSWORD = "swavaf@123"
@@ -174,7 +176,7 @@ def main():
                         "name": signup_name,
                         "email": signup_email,
                         "affiliation": affiliation,
-                        "status": "0"
+                        "status": "Not verified"
                     })
                 except:
                     st.error("Failed to create account")
@@ -189,69 +191,170 @@ def main():
             st.success("Successfully logged in!")  
             user_data = db.child("cast_lab_users").child(user['localId']).get().val()
             status = user_data.get("status")
-            if status == "1":
+            if status == "Verified":
                 # st.write(status)
-                st.write("IP address - 10.101.247.225")
-                st.write("Username - swavaf")
-                st.write("Password - swavaf@123")
-                if st.button('Connect Host'):
-                    if ip_address:
-                        st.write("Connecting...")
-                        data = fetch_data_from_host(ip_address)
-                        st.write("Response:")
-                        st.write(data)
-                    else:
-                        st.write("Connection failed")
-            elif status == "0":
-                st.markdown("**User not verified. Please wait for verification.**")
-            elif status == "2":
-                # st.write(status)
-                st.write("IP address - 10.101.247.225")
-                st.write("Username - swavaf")
-                st.write("Password - swavaf@123")
-                if st.button('Connect Host'):
-                    if ip_address:
-                        st.write("Connecting...")
-                        data = fetch_data_from_host(ip_address)
-                        st.write("Response:")
-                        st.write(data)
-                    else:
-                        st.write("Connection failed")
-                manage = st.checkbox('Manage')
-                if manage:
+                # st.write("IP address - 10.101.247.225")
+                # st.write("Username - swavaf")
+                # st.write("Password - swavaf@123")
+                # if st.button('Connect Host'):
+                #     if ip_address:
+                #         st.write("Connecting...")
+                #         data = fetch_data_from_host(ip_address)
+                #         st.write("Response:")
+                #         st.write(data)
+                #     else:
+                #         st.write("Connection failed")
+                option1 = st.radio("", ('Request Resources', 'Account'), horizontal=True)
+                if option1 == 'Account':
                     try:
-                        user_data = db.child("cast_lab_users").get().val()
-                        # st.write(user_data)
+                        user_data = db.child("cast_lab_users").child(user['localId']).get().val()
                         display_user_data(user_data)
                     except:
-                        st.error("Invalid email or password")
+                        st.error("Error fetching user")
+                else:
+                    # Input fields for the form
+                    gpus = st.number_input("Number of GPUs required", min_value=1, step=1)
+                    hours = st.number_input("Number of hours", min_value=1, step=1)
+                    container = st.selectbox("Select a container", ["Container 1", "Container 2", "Container 3"])
+
+                    # Date and time input
+                    date = st.date_input("Select a date", value=datetime.today())
+                    time = st.time_input("Select a time", value=datetime.now().time())
+
+                    # Additional notes
+                    notes = st.text_area("Additional Notes")
+
+                    # Button to send the request
+                    if st.button("Send Request"):
+                        send_request(gpus, hours, container, date, time, notes)
+            elif status == "Not verified":
+                st.markdown("**User not verified. Please wait for verification.**")
+            elif status == "Admin":
+                # st.write(status)
+                # st.write("IP address - 10.101.247.225")
+                # st.write("Username - swavaf")
+                # st.write("Password - swavaf@123")
+                # if st.button('Connect Host'):
+                #     if ip_address:
+                #         st.write("Connecting...")
+                #         data = fetch_data_from_host(ip_address)
+                #         st.write("Response:")
+                #         st.write(data)
+                #     else:
+                #         st.write("Connection failed")
+                option = st.radio("", ('Request Resources', 'Manage User'), horizontal=True)
+                if option == 'Manage User':
+                    try:
+                        user_data = db.child("cast_lab_users").get().val()
+                        display_all_user_data(user_data)
+                    except:
+                        st.error("Error fetching user")
+                else:
+                    # Input fields for the form
+                    gpus = st.number_input("Number of GPUs required", min_value=1, step=1)
+                    hours = st.number_input("Number of hours", min_value=1, step=1)
+                    container = st.selectbox("Select a container", ["Container 1", "Container 2", "Container 3"])
+
+                    # Date and time input
+                    date = st.date_input("Select a date", value=datetime.today())
+                    time = st.time_input("Select a time", value=datetime.now().time())
+
+                    # Additional notes
+                    notes = st.text_area("Additional Notes")
+
+                    # Button to send the request
+                    if st.button("Send Request"):
+                        send_request(gpus, hours, container, date, time, notes)
                         
         except:
                 st.error("Invalid email or password")
 
-def display_user_data(user_data):
-    st.write("## User Details")
+def display_all_user_data(user_data):
+    st.write("## Manage User Details")
     for user_id, data in user_data.items():
         st.write(f"**User ID:** {user_id}")
-        st.write(f"**Name:** {data['name']}")
-        st.write(f"**Affiliation:** {data['affiliation']}")
-        st.write(f"**Email:** {data['email']}")
-        st.write(f"**Status:** {data['status']}")
-        if st.checkbox(f"**Approve:** {user_id}"):
+ 
+        # Create columns for Name and Affiliation
+        col1, col2 = st.columns([1, 2])  # Adjust column ratios as needed
+        
+        with col1:
+            st.write(f"**Name:** {data['name']}")
+        
+        with col2:
+            st.write(f"**Affiliation:** {data['affiliation']}") 
+
+        
+        # Create columns for Name and Affiliation
+        col3, col4 = st.columns([1, 2])  # Adjust column ratios as needed
+        
+        with col3:
+            st.write(f"**Email:** {data['email']}")
+        
+        with col4:
+            st.write(f"**Status:** {data['status']}")
+
+        
+        if st.checkbox(f"**Verify:** {user_id}"):
             # Approve user logic here
-            st.write(f"Please confirm for this User approvel")
-            # st.button(f"**Approve:** {user_id}")
-            if st.button(f"**Approve:** {user_id}"):
-                db.child("cast_lab_users").child(user_id).update({"status": "1"})
-                st.write(f"User {user_id} approved.")
+            st.write(f"Please confirm verification for this User")
+            if st.button(f"**Verify:** {user_id}"):
+                db.child("cast_lab_users").child(user_id).update({"status": "Verified"})
+                st.write(f"User {user_id} verified.")
+        
         if st.checkbox(f"**Delete:** {user_id}"):
             # Delete user logic here
-            st.write(f"Do you want this User delete?")
-            # st.button(f"**Delete:** {user_id}")
+            st.write(f"Do you want to delete this User?")
             if st.button(f"**Delete:** {user_id}"):
                 db.child("cast_lab_users").child(user_id).remove()
                 st.write(f"User {user_id} deleted.")
-        st.write("---")
+        
+        st.markdown(
+            "<hr style='border: 2px solid #f3f3f3; margin-top: 20px; margin-bottom: 20px;'>",
+            unsafe_allow_html=True,
+        )  # Custom separator with style
+
+def display_user_data(user_data):
+    st.write("## User Details")
+    st.write(f"**User ID:** {user_data['userid']}")
+ 
+    # Create columns for Name and Affiliation
+    col1, col2 = st.columns([1, 2])  # Adjust column ratios as needed
+        
+    with col1:
+        st.write(f"**Name:** {user_data['name']}")
+        
+    with col2:
+        st.write(f"**Affiliation:** {user_data['affiliation']}") 
+
+        
+    # Create columns for Name and Affiliation
+    col3, col4 = st.columns([1, 2])  # Adjust column ratios as needed
+        
+    with col3:
+        st.write(f"**Email:** {user_data['email']}")
+        
+    with col4:
+        st.write(f"**Status:** {user_data['status']}")
+
+        
+    # if st.checkbox(f"**Verify:** {user_id}"):
+    #     # Approve user logic here
+    #     st.write(f"Please confirm verification for this User")
+    #     if st.button(f"**Verify:** {user_id}"):
+    #         db.child("cast_lab_users").child(user_id).update({"status": "Verified"})
+    #         st.write(f"User {user_id} verified.")
+        
+    if st.checkbox(f"**Delete:** {user_data['userid']}"):
+        # Delete user logic here
+        st.write(f"Do you want to delete this User Account?")
+        if st.button(f"**Delete:** {user_data['userid']}"):
+            db.child("cast_lab_users").child(user_data['userid']).remove()
+            st.write(f"User {user_data['userid']} deleted.")
+        
+    st.markdown(
+        "<hr style='border: 2px solid #f3f3f3; margin-top: 20px; margin-bottom: 20px;'>",
+        unsafe_allow_html=True,
+    )  # Custom separator with style
         
 
         
