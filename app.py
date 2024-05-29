@@ -114,9 +114,11 @@ def main():
 
         if st.checkbox("Forgot password?"):
             st.session_state.show_reset_form = True
-
-        if 'show_reset_form' not in st.session_state:
+        else:
             st.session_state.show_reset_form = False
+
+        # if 'show_reset_form' not in st.session_state:
+        #     st.session_state.show_reset_form = False
 
         if st.session_state.show_reset_form:
             st.markdown("<h2>Reset Password</h2>", unsafe_allow_html=True)
