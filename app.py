@@ -214,12 +214,25 @@ def display_user_data(user_data):
         if st.checkbox(f"**Approve:** {user_id}"):
             # Approve user logic here
             st.write(f"Please confirm for this User approvel")
-            st.button(f"**Approve:** {user_id}")
+            # st.button(f"**Approve:** {user_id}")
+            if st.button(f"**Approve:** {user_id}"):
+                approve_user(user_id)
+                st.success(f"User {data['name']} approved")
         if st.checkbox(f"**Delete:** {user_id}"):
             # Delete user logic here
             st.write(f"Do you want this User delete?")
-            st.button(f"**Delete:** {user_id}")
+            # st.button(f"**Delete:** {user_id}")
+            if st.button(f"**Delete:** {user_id}"):
+                delete_user(user_id)
+                st.success(f"User {data['name']} deleted!")
         st.write("---")
+        
+def delete_user(user_id):
+    db.reference(f'cast_lab_users/{user_id}').delete()
+    
+def approve_user(user_id):
+    # Example: Update user's status to 'approved' in Firebase
+    db.reference(f'cast_lab_users/{user_id}').update({'status': '1'})
         
 if __name__ == "__main__":
     main()
