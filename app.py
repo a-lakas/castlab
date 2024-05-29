@@ -112,7 +112,7 @@ def main():
 
         # st.markdown("<a href='#' id='forgot-password-link'>Forgot password?</a>", unsafe_allow_html=True)
 
-        if st.sidebar.button("Forgot password?"):
+        if st.checkbox("Forgot password?"):
             st.session_state.show_reset_form = True
 
         if 'show_reset_form' not in st.session_state:
