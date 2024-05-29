@@ -48,7 +48,7 @@ def fetch_data_from_host(ip_address):
         ssh_client = paramiko.SSHClient()
         ssh_client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
         ssh_client.connect(hostname=ip_address, username=DEFAULT_USERNAME, password=DEFAULT_PASSWORD)
-        stdin, stdout, stderr = ssh_client.exec_command('your_command')
+        stdin, stdout, stderr = ssh_client.exec_command('welcome')
         data = stdout.read().decode()
         ssh_client.close()
         return data
