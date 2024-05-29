@@ -13,6 +13,32 @@ DEFAULT_PASSWORD = "swavaf@123"
 ip_address = "10.101.247.225"
 # ip_address = "10.90.216.26"
 
+log_file = st.selectbox('Select Log File', ['/var/log/syslog', '/var/log/auth.log', '/var/log/apache2/access.log', '/var/log/apache2/error.log', '/var/log/nginx/access.log', '/var/log/nginx/error.log'])
+
+if st.button('Show Logs'):
+    if not ip_address or not DEFAULT_USERNAME or not DEFAULT_PASSWORD:
+        st.error('Please fill in all the fields.')
+    else:
+        # Establish SSH connection
+        try:
+            ssh = paramiko.SSHClient()
+            ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+            ssh.connect(ip_address, username=DEFAULT_USERNAME, password=DEFAULT_PASSWORD)
+
+            # Execute tail command to fetch the last few lines of the log file
+            stdin, stdout, stderr = ssh.exec_command(f'tail -f {log_file}')
+
+            # Display logs in real-time
+            st.write(f'Showing logs from {log_file}...')
+            while True:
+                line = stdout.readline()
+                if line:
+                    st.text(line.strip())
+                else:
+                    time.sleep(1)
+        except Exception as e:
+            st.error(f'Error: {e}')
+
 # Firebase configuration
 firebaseConfig = {
     'apiKey': "AIzaSyC_1yhveazgVtX-hfmZh6OwFGvODNgCgG4",
