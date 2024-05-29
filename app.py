@@ -216,7 +216,7 @@ def display_user_data(user_data):
             st.write(f"Please confirm for this User approvel")
             # st.button(f"**Approve:** {user_id}")
             if st.button(f"**Approve:** {user_id}"):
-                db.reference(f'{user_id}').update({'Status': '1'})
+                db.reference(f'{user_id}').update({'status': '1'})
                 st.success(f"User {data['name']} approved")
         if st.checkbox(f"**Delete:** {user_id}"):
             # Delete user logic here
