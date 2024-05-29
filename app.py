@@ -65,30 +65,30 @@ def reset_password(email):
 def main():
     st.set_page_config(page_title="UAEU A100 Portal")
 
-    # Text inputs for SSH connection details
-    server_ip = st.text_input('Enter Server IP Address', '10.101.247.225')
-    port = st.number_input('Enter SSH Port', value=22)
-    username = st.text_input('Enter Username', 'swavaf')
-    password = st.text_input('Enter Password', type='password', value='swavaf@123')
+    # # Text inputs for SSH connection details
+    # server_ip = st.text_input('Enter Server IP Address', '10.101.247.225')
+    # port = st.number_input('Enter SSH Port', value=22)
+    # username = st.text_input('Enter Username', 'swavaf')
+    # password = st.text_input('Enter Password', type='password', value='swavaf@123')
 
-    # Button to initiate connection
-    if st.button('Connect'):
-        try:
-            # Create SSH client
-            ssh_client = paramiko.SSHClient()
-            ssh_client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+    # # Button to initiate connection
+    # if st.button('Connect'):
+    #     try:
+    #         # Create SSH client
+    #         ssh_client = paramiko.SSHClient()
+    #         ssh_client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
 
-            # Connect to server
-            ssh_client.connect(server_ip, port=port, username=username, password=password)
+    #         # Connect to server
+    #         ssh_client.connect(server_ip, port=port, username=username, password=password)
 
-            # Display success message
-            st.success('Connected to server successfully!')
+    #         # Display success message
+    #         st.success('Connected to server successfully!')
             
-            # Close the connection
-            ssh_client.close()
-        except Exception as e:
-            # Display error message
-            st.error(f'Error connecting to server: {e}')
+    #         # Close the connection
+    #         ssh_client.close()
+    #     except Exception as e:
+    #         # Display error message
+    #         st.error(f'Error connecting to server: {e}')
 
     st.markdown(
         """
