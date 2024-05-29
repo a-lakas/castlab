@@ -223,7 +223,9 @@ def display_user_data(user_data):
             st.write(f"Do you want this User delete?")
             # st.button(f"**Delete:** {user_id}")
             if st.button(f"**Delete:** {user_id}"):
-    st.write("---")
+                db.child("cast_lab_users").child(user_id).remove()
+                st.write(f"User {user_id} deleted.")
+            st.write("---")
         
 
         
