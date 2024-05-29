@@ -216,14 +216,14 @@ def display_user_data(user_data):
             st.write(f"Please confirm for this User approvel")
             # st.button(f"**Approve:** {user_id}")
             if st.button(f"**Approve:** {user_id}"):
-                approve_user(user_id)
+                approve_user({user_id})
                 st.success(f"User {data['name']} approved")
         if st.checkbox(f"**Delete:** {user_id}"):
             # Delete user logic here
             st.write(f"Do you want this User delete?")
             # st.button(f"**Delete:** {user_id}")
             if st.button(f"**Delete:** {user_id}"):
-                delete_user(user_id)
+                delete_user({user_id})
                 st.success(f"User {data['name']} deleted!")
         st.write("---")
         
