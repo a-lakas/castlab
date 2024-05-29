@@ -223,7 +223,7 @@ def display_user_data(user_data):
             st.write(f"Do you want this User delete?")
             # st.button(f"**Delete:** {user_id}")
             if st.button(f"**Delete:** {user_id}"):
-        st.write("---")
+    st.write("---")
         
 
         
