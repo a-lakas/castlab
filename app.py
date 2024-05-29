@@ -232,7 +232,7 @@ def delete_user(user_id):
     
 def approve_user(user_id):
     # Example: Update user's status to 'approved' in Firebase
-    db.reference(f'cast_lab_users/{user_id}').update({'status': '1'})
+    db.reference(f'cast_lab_users/{user_id}').update({'Status': '1'})
         
 if __name__ == "__main__":
     main()
