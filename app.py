@@ -186,7 +186,6 @@ def main():
                 st.write("IP address - 10.101.247.225")
                 st.write("Username - swavaf")
                 st.write("Password - swavaf@123")
-                st.code("Connecting...Connecting...Connecting...Connecting...")
                 if st.button('Connect Host'):
                     if ip_address:
                         st.write("Connecting...")
