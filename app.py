@@ -7,11 +7,28 @@ from requests.exceptions import ConnectionError, Timeout
 import subprocess
 import pyrebase
 from datetime import datetime
+import mysql.connector
+import pandas as pd
 
 
 DEFAULT_USERNAME = "swavaf"
 DEFAULT_PASSWORD = "swavaf@123"
 ip_address = "10.101.247.225"
+
+connection = mysql.connector.connect(
+host='127.0.0.1',
+user='root',
+password='Kaippuram@123',
+database='castlab'
+)
+
+print('Connected')
+
+cursor = connection.cursor()
+
+
+
+
 
 
 # Firebase configuration
@@ -64,6 +81,16 @@ def reset_password(email):
 
 def main():
     st.set_page_config(page_title="UAEU A100 Portal")
+
+    cursor.execute("SELECT * FROM Authentication")
+    data = cursor.fetchall()
+    print(data)
+    print(cursor.column_names)
+
+    st.title("Cast Lab users list")
+
+    df = pd.DataFrame(data, columns=cursor.column_names)
+    st.dataframe(df)
 
     # # Text inputs for SSH connection details
     # server_ip = st.text_input('Enter Server IP Address', '10.101.247.225')
@@ -204,22 +231,35 @@ def main():
                 #         st.write(data)
                 #     else:
                 #         st.write("Connection failed")
-                option1 = st.radio("", ('Request Resources', 'Account'), horizontal=True)
+                option1 = st.radio("", ('Request Resources', 'History', 'Account'), horizontal=True)
                 if option1 == 'Account':
                     try:
                         user_data = db.child("cast_lab_users").child(user['localId']).get().val()
                         display_user_data(user_data)
                     except:
                         st.error("Error fetching user")
-                else:
+                elif option1 == 'History':
+                    st.success("Requests History!")  
+                elif option1 == 'Request Resources':
                     # Input fields for the form
-                    gpus = st.number_input("Number of GPUs required", min_value=1, step=1)
-                    hours = st.number_input("Number of hours", min_value=1, step=1)
+                    col9, col10 = st.columns([1, 1])  # Adjust column ratios as needed
+
+                    with col9:
+                        gpus = st.number_input("Number of GPUs required", min_value=1, step=1)
+        
+                    with col10:
+                        hours = st.number_input("Number of hours", min_value=1, step=1)
+
                     container = st.selectbox("Select a container", ["Container 1", "Container 2", "Container 3"])
 
                     # Date and time input
-                    date = st.date_input("Select a date", value=datetime.today())
-                    time = st.time_input("Select a time", value=datetime.now().time())
+                    col11, col12 = st.columns([1, 1])  # Adjust column ratios as needed
+        
+                    with col11:
+                        date = st.date_input("Select a date", value=datetime.today())
+        
+                    with col12:
+                        time = st.time_input("Select a time", value=datetime.now().time())
 
                     # Additional notes
                     notes = st.text_area("Additional Notes")
@@ -242,22 +282,35 @@ def main():
                 #         st.write(data)
                 #     else:
                 #         st.write("Connection failed")
-                option = st.radio("", ('Request Resources', 'Manage User'), horizontal=True)
-                if option == 'Manage User':
+                option = st.radio("", ('Request Resources', 'Manage Users', 'History', 'Account'), horizontal=True)
+                if option == 'Manage Users':
                     try:
                         user_data = db.child("cast_lab_users").get().val()
                         display_all_user_data(user_data)
                     except:
                         st.error("Error fetching user")
-                else:
+                elif option == 'Request Resources':
                     # Input fields for the form
-                    gpus = st.number_input("Number of GPUs required", min_value=1, step=1)
-                    hours = st.number_input("Number of hours", min_value=1, step=1)
+                    col5, col6 = st.columns([1, 1])  # Adjust column ratios as needed
+        
+                    with col5:
+                        gpus = st.number_input("Number of GPUs required", min_value=1, step=1)
+        
+                    with col6:
+                        hours = st.number_input("Number of hours", min_value=1, step=1)
+                    
+                    
                     container = st.selectbox("Select a container", ["Container 1", "Container 2", "Container 3"])
+                    col7, col8 = st.columns([1, 1])  # Adjust column ratios as needed
+        
+                    with col7:
+                        date = st.date_input("Select a date", value=datetime.today())
+        
+                    with col8:
+                        time = st.time_input("Select a time", value=datetime.now().time())
 
                     # Date and time input
-                    date = st.date_input("Select a date", value=datetime.today())
-                    time = st.time_input("Select a time", value=datetime.now().time())
+                    
 
                     # Additional notes
                     notes = st.text_area("Additional Notes")
@@ -265,6 +318,14 @@ def main():
                     # Button to send the request
                     if st.button("Send Request"):
                         send_request(gpus, hours, container, date, time, notes)
+                elif option == 'History':
+                    st.success("Requests History!")  
+                elif option == 'Account':
+                    try:
+                        user_data = db.child("cast_lab_users").child(user['localId']).get().val()
+                        display_user_data(user_data)
+                    except:
+                        st.error("Error fetching user")
                         
         except:
                 st.error("Invalid email or password")
@@ -272,7 +333,9 @@ def main():
 def display_all_user_data(user_data):
     st.write("## Manage User Details")
     for user_id, data in user_data.items():
-        st.write(f"**User ID:** {user_id}")
+        # st.write(f"**User ID:** {user_id}")
+        st.success(f"**User ID:** {user_id}")  
+
  
         # Create columns for Name and Affiliation
         col1, col2 = st.columns([1, 2])  # Adjust column ratios as needed
@@ -307,6 +370,13 @@ def display_all_user_data(user_data):
             if st.button(f"**Delete:** {user_id}"):
                 db.child("cast_lab_users").child(user_id).remove()
                 st.write(f"User {user_id} deleted.")
+
+        if st.checkbox(f"**Set as Admin:** {user_id}"):
+            # Delete user logic here
+            st.write(f"Do you want to set this User as Admin?")
+            if st.button(f"**Set as Admin:** {user_id}"):
+                db.child("cast_lab_users").child(user_id).update({"status": "Admin"})
+                st.write(f"User {user_id} is Admin now.")
         
         st.markdown(
             "<hr style='border: 2px solid #f3f3f3; margin-top: 20px; margin-bottom: 20px;'>",
@@ -314,7 +384,10 @@ def display_all_user_data(user_data):
         )  # Custom separator with style
 
 def display_user_data(user_data):
-    st.write("## User Details")
+    # st.write("## User Details")
+    st.success("User Details")  
+
+
     st.write(f"**User ID:** {user_data['userid']}")
  
     # Create columns for Name and Affiliation
