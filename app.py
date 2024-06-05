@@ -7,24 +7,24 @@ from requests.exceptions import ConnectionError, Timeout
 import subprocess
 import pyrebase
 from datetime import datetime
-import mysql.connector
-import pandas as pd
+# import mysql.connector
+# import pandas as pd
 
 
 DEFAULT_USERNAME = "swavaf"
 DEFAULT_PASSWORD = "swavaf@123"
 ip_address = "10.101.247.225"
 
-connection = mysql.connector.connect(
-host='127.0.0.1',
-user='root',
-password='Kaippuram@123',
-database='castlab'
-)
+# connection = mysql.connector.connect(
+# host='127.0.0.1',
+# user='root',
+# password='Kaippuram@123',
+# database='castlab'
+# )
 
-print('Connected')
+# print('Connected')
 
-cursor = connection.cursor()
+# cursor = connection.cursor()
 
 
 
@@ -82,15 +82,15 @@ def reset_password(email):
 def main():
     st.set_page_config(page_title="UAEU A100 Portal")
 
-    cursor.execute("SELECT * FROM Authentication")
-    data = cursor.fetchall()
-    print(data)
-    print(cursor.column_names)
+    # cursor.execute("SELECT * FROM Authentication")
+    # data = cursor.fetchall()
+    # print(data)
+    # print(cursor.column_names)
 
-    st.title("Cast Lab users list")
+    # st.title("Cast Lab users list")
 
-    df = pd.DataFrame(data, columns=cursor.column_names)
-    st.dataframe(df)
+    # df = pd.DataFrame(data, columns=cursor.column_names)
+    # st.dataframe(df)
 
     # # Text inputs for SSH connection details
     # server_ip = st.text_input('Enter Server IP Address', '10.101.247.225')
