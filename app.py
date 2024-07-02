@@ -194,15 +194,9 @@ def main():
         signup_button = st.button("Sign up")
 
         if signup_button:
+            
             if signup_password == signup_confirm_password:
                 try:
-                    st.success(signup_name)
-                    st.success(signup_email)
-                    st.success(signup_password)
-                    st.success(signup_confirm_password)
-                    st.success(affiliation)
-
-                    
                     user = auth.create_user_with_email_and_password(signup_email, signup_password)
                     st.success("Successfully signed up!")
                     db.child("cast_lab_users").child(user['localId']).set({
@@ -212,8 +206,10 @@ def main():
                         "affiliation": affiliation,
                         "status": "Not verified"
                     })
-                except:
-                    st.error("Failed to create account")
+                except requests.exceptions.HTTPError as e:
+                    st.error(f"Failed to create account: {e.response.json()['error']['message']}")
+                except Exception as e:
+                    st.error(f"Failed to create account: {str(e)}")
             else:
                 st.error("Passwords do not match")
 
