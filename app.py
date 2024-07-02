@@ -453,6 +453,31 @@ def display_user_data(user_data):
         unsafe_allow_html=True,
     )  # Custom separator with style
         
+def send_request(login_email, gpus, hours, container, date, time, notes):
+    try:
+        # Generate a unique request ID
+        request_id = str(uuid.uuid4())
+        
+        # Prepare the request data
+        request_data = {
+            "email": login_email,
+            "gpus": gpus,
+            "hours": hours,
+            "container": container,
+            "date": date.isoformat(),  # Convert date to string
+            "time": time.strftime("%H:%M:%S"),  # Convert time to string
+            "notes": notes,
+            "status": "Pending"
+        }
+        
+        # Save the request in Firebase under the "requests" node with the unique request ID
+        db.child("requests").child(request_id).set(request_data)
+        
+        # Provide feedback to the user
+        st.success(f"Request submitted successfully with ID: {request_id}")
+        
+    except Exception as e:
+        st.error(f"Failed to create request: {str(e)}")
 
         
 if __name__ == "__main__":
