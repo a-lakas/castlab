@@ -365,29 +365,26 @@ def main():
                     # Button to send the request
                     if st.button("Send Request"):
                         send_request(login_email, gpus, hours, container, date, time, notes)
-                        
-                elif option == 'History':
-                    
+
+                elif option == 'History':    
                     try:
                         # Fetch all requests from the Firebase database
                         all_requests = db.child("requests").get().val()
-        
+
                         if all_requests:
                             st.write("## Your Requests History")
 
                             # Filter and display only the requests relevant to the logged-in user
                             user_requests = [req for req_id, req in all_requests.items()]
-            
-                            if user_requests:
-                                for request in user_requests:
-                                    # st.success(f"**Request ID:** {request_id}")  # Displaying each request
 
+                            if user_requests:
+                                for request_id, request in enumerate(user_requests):
+                                    # Display request details
                                     col1, col2 = st.columns(2)
                                     with col1:
                                         st.write(f"**Number of GPUs:** {request['gpus']}")
                                         st.write(f"**Hours Requested:** {request['hours']}")
                                         st.write(f"**Container:** {request['container']}")
-
                                     with col2:
                                         st.write(f"**Date:** {request['date']}")
                                         st.write(f"**Time:** {request['time']}")
@@ -395,6 +392,20 @@ def main():
 
                                     # Display the status of the request
                                     st.write(f"**Status:** {request['status']}")
+
+                                    # Add approve and reject buttons
+                                    approve_button = st.button(f"Approve Request {request_id}")
+                                    reject_button = st.button(f"Reject Request {request_id}")
+
+                                    if approve_button:
+                                        # Update status to 'approved' in the database
+                                        db.child("requests").child(request_id).update({"status": "approved"})
+                                        st.success(f"Request {request_id} approved!")
+
+                                    if reject_button:
+                                        # Update status to 'rejected' in the database
+                                        db.child("requests").child(request_id).update({"status": "rejected"})
+                                        st.warning(f"Request {request_id} rejected!")
 
                                     st.markdown(
                                         "<hr style='border: 2px solid #f3f3f3; margin-top: 20px; margin-bottom: 20px;'>",
@@ -405,9 +416,52 @@ def main():
                                 st.warning("No requests found for your account.")
                         else:
                             st.warning("No requests found in the database.")
-        
+
                     except Exception as e:
-                        st.error(f"Error fetching requests: {str(e)}") 
+                        st.error(f"Error fetching requests: {str(e)}")
+                        
+                # elif option == 'History':
+                    
+                #     try:
+                #         # Fetch all requests from the Firebase database
+                #         all_requests = db.child("requests").get().val()
+        
+                #         if all_requests:
+                #             st.write("## Your Requests History")
+
+                #             # Filter and display only the requests relevant to the logged-in user
+                #             user_requests = [req for req_id, req in all_requests.items()]
+            
+                #             if user_requests:
+                #                 for request in user_requests:
+                #                     # st.success(f"**Request ID:** {request_id}")  # Displaying each request
+
+                #                     col1, col2 = st.columns(2)
+                #                     with col1:
+                #                         st.write(f"**Number of GPUs:** {request['gpus']}")
+                #                         st.write(f"**Hours Requested:** {request['hours']}")
+                #                         st.write(f"**Container:** {request['container']}")
+
+                #                     with col2:
+                #                         st.write(f"**Date:** {request['date']}")
+                #                         st.write(f"**Time:** {request['time']}")
+                #                         st.write(f"**Notes:** {request['notes']}")
+
+                #                     # Display the status of the request
+                #                     st.write(f"**Status:** {request['status']}")
+
+                #                     st.markdown(
+                #                         "<hr style='border: 2px solid #f3f3f3; margin-top: 20px; margin-bottom: 20px;'>",
+                #                         unsafe_allow_html=True,
+                #                     )  # Custom separator with style
+
+                #             else:
+                #                 st.warning("No requests found for your account.")
+                #         else:
+                #             st.warning("No requests found in the database.")
+        
+                #     except Exception as e:
+                #         st.error(f"Error fetching requests: {str(e)}") 
                 elif option == 'Account':
                     try:
                         user_data = db.child("cast_lab_users").child(user['localId']).get().val()
