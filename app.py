@@ -331,15 +331,16 @@ def main():
                     # Button to send the request
                     if st.button("Send Request"):
 
-                        db.child("cast_lab_users").child("requests").push({
-                        "gpus": gpus,
-                        "hours": hours,
-                        "email": login_email,
-                        "container": container,
-                        "date": date,
-                        "time": time,
-                        "notes": notes
-                        })
+                        new_request_data = {
+                            "gpus": gpus,
+                            "hours": hours,
+                            "email": login_email,
+                            "container": container,
+                            "date": date,
+                            "time": time,
+                            "notes": notes
+                        }
+                        db.child("cast_lab_users").child("requests").push(new_request_data)
                 elif option == 'History':
                     st.success("Requests History!")  
                 elif option == 'Account':
