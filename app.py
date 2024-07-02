@@ -376,7 +376,7 @@ def main():
                             st.write("## Your Requests History")
 
                             # Filter and display only the requests relevant to the logged-in user
-                            user_requests = [req for req_id, req in all_requests.items() if req['email'] == login_email]
+                            user_requests = [req for req_id, req in all_requests.items()]
             
                             if user_requests:
                                 for request in user_requests:
