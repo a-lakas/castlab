@@ -329,21 +329,20 @@ def main():
                     notes = st.text_area("Additional Notes")
 
                     # Button to send the request
-                        if st.button("Send Request"):
-                            new_request_data = {
-                                "gpus": gpus,
-                                "hours": hours,
-                                "email": login_email,
-                                "container": container,
-                                "date": date.strftime("%Y-%m-%d"),  # Convert date to string
-                                "time": time.strftime("%H:%M:%S"),  # Convert time to string
-                                "notes": notes,
-                                "user_id": user_id,  # Associate the request with the logged-in user
-                                "request_time": datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")  # Timestamp for the request
-                            }
+                    if st.button("Send Request"):
+                        new_request_data = {
+                            "gpus": gpus,
+                            "hours": hours,
+                            "email": login_email,
+                            "container": container,
+                            "date": date.strftime("%Y-%m-%d"),  # Convert date to string
+                            "time": time.strftime("%H:%M:%S"),  # Convert time to string
+                            "notes": notes,
+                            "request_time": datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")  # Timestamp for the request
+                        }
         
-                            # Push new request data to the "requests" child node under "cast_lab_users"
-                            db.child("cast_lab_users").child("requests").push(new_request_data)
+                        # Push new request data to the "requests" child node under "cast_lab_users"
+                        db.child("cast_lab_users").child("requests").push(new_request_data)
         st.success("Request has been successfully logged!")
                 elif option == 'History':
                     st.success("Requests History!")  
