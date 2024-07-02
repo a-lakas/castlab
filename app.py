@@ -383,6 +383,7 @@ def send_request(login_email, gpus, hours, container, date, time, notes):
         user = auth.create_user_with_email_and_password(signup_email, signup_password)
         # st.success("Successfully signed up!")
         db.child("cast_lab_users").child("requests").set({
+        "request_id": date+time,
         "gpus": gpus,
         "hours": hours,
         "email": login_email,
