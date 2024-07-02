@@ -245,7 +245,46 @@ def main():
                     except:
                         st.error("Error fetching user")
                 elif option1 == 'History':
-                    st.success("Requests History!")  
+                    try:
+                        # Fetch all requests from the Firebase database
+                        all_requests = db.child("requests").get().val()
+        
+                        if all_requests:
+                            st.write("## Your Requests History")
+
+                            # Filter and display only the requests relevant to the logged-in user
+                            user_requests = [req for req_id, req in all_requests.items() if req['email'] == login_email]
+            
+                            if user_requests:
+                                for request in user_requests:
+                                    # st.success(f"**Request ID:** {request_id}")  # Displaying each request
+
+                                    col1, col2 = st.columns(2)
+                                    with col1:
+                                        st.write(f"**Number of GPUs:** {request['gpus']}")
+                                        st.write(f"**Hours Requested:** {request['hours']}")
+                                        st.write(f"**Container:** {request['container']}")
+
+                                    with col2:
+                                        st.write(f"**Date:** {request['date']}")
+                                        st.write(f"**Time:** {request['time']}")
+                                        st.write(f"**Notes:** {request['notes']}")
+
+                                    # Display the status of the request
+                                    st.write(f"**Status:** {request['status']}")
+
+                                    st.markdown(
+                                        "<hr style='border: 2px solid #f3f3f3; margin-top: 20px; margin-bottom: 20px;'>",
+                                        unsafe_allow_html=True,
+                                    )  # Custom separator with style
+
+                            else:
+                                st.warning("No requests found for your account.")
+                        else:
+                            st.warning("No requests found in the database.")
+        
+                    except Exception as e:
+                        st.error(f"Error fetching requests: {str(e)}") 
                 elif option1 == 'Request Resources':
                     # Input fields for the form
                     col9, col10 = st.columns([1, 1])  # Adjust column ratios as needed
