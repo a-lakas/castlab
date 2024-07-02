@@ -330,13 +330,13 @@ def main():
 
                     # Button to send the request
                     if st.button("Send Request"):
-                        print(login_email)
-                        print(gpus)
-                        print(hours)
-                        print(container)
-                        print(date)
-                        print(time)
-                        print(notes)
+                        st.success(login_email)
+                        st.success(gpus)
+                        st.success(hours)
+                        st.success(container)
+                        st.success(date)
+                        st.success(time)
+                        st.success(notes)
 
                         send_request(login_email, gpus, hours, container, date, time, notes)
                 elif option == 'History':
