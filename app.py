@@ -343,7 +343,6 @@ def main():
         
                         # Push new request data to the "requests" child node under "cast_lab_users"
                         db.child("cast_lab_users").child("requests").push(new_request_data)
-        st.success("Request has been successfully logged!")
                 elif option == 'History':
                     st.success("Requests History!")  
                 elif option == 'Account':
