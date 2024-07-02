@@ -251,6 +251,7 @@ def main():
                         hours = st.number_input("Number of hours", min_value=1, step=1)
 
                     # container = st.selectbox("Select a container", ["Container 1", "Container 2", "Container 3"])
+                    container = "Container 1"
 
                     # Date and time input
                     col11, col12 = st.columns([1, 1])  # Adjust column ratios as needed
@@ -300,7 +301,8 @@ def main():
                         hours = st.number_input("Number of hours", min_value=1, step=1)
                     
                     
-                    container = st.selectbox("Select a container", ["Container 1", "Container 2", "Container 3"])
+                    # container = st.selectbox("Select a container", ["Container 1", "Container 2", "Container 3"])
+                    container = "Container 1"
                     col7, col8 = st.columns([1, 1])  # Adjust column ratios as needed
         
                     with col7:
