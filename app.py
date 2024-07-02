@@ -377,23 +377,6 @@ def main():
         except:
                 st.error("Invalid email or password")
 
-
-def send_request(login_email, gpus, hours, container, date, time, notes):
-    try:
-        user = auth.create_user_with_email_and_password(signup_email, signup_password)
-        # st.success("Successfully signed up!")
-        db.child("cast_lab_users").child("requests").set({
-        "request_id": date+time,
-        "gpus": gpus,
-        "hours": hours,
-        "email": login_email,
-        "container": container,
-        "date": date,
-        "time": time,
-        "notes": notes
-        })
-    except:
-        st.error("Failed to create rquests")
             
 def display_all_user_data(user_data):
     st.write("## Manage User Details")
@@ -501,6 +484,7 @@ def send_request(login_email, gpus, hours, container, date, time, notes):
         
         # Prepare the request data
         request_data = {
+            "request_id": request_id, 
             "email": login_email,
             "gpus": gpus,
             "hours": hours,
