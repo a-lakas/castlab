@@ -194,12 +194,11 @@ def main():
         signup_button = st.button("Sign up")
 
         if signup_button:
-            
             if signup_password == signup_confirm_password:
                 try:
                     user = auth.create_user_with_email_and_password(signup_email, signup_password)
                     st.success("Successfully signed up!")
-                    db.child("cast_lab_users").child(user['localId']).set({
+                    db.child("cast_lab_normal_users").child(user['localId']).set({
                         "userid": user['localId'],
                         "name": signup_name,
                         "email": signup_email,
