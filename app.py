@@ -330,18 +330,8 @@ def main():
 
                     # Button to send the request
                     if st.button("Send Request"):
-                        st.success(login_email)
-                        st.success(gpus)
-                        st.success(hours)
-                        st.success(container)
-                        st.success(date)
-                        st.success(time)
-                        st.success(notes)
 
-                        # send_request(login_email, gpus, hours, container, date, time, notes)
-                        # user = auth.create_user_with_email_and_password(signup_email, signup_password)
-                        # st.success("Successfully signed up!")
-                        db.child("cast_lab_users").child("requests").set({
+                        db.child("cast_lab_users").child("requests").push({
                         "gpus": gpus,
                         "hours": hours,
                         "email": login_email,
