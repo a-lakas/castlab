@@ -211,6 +211,24 @@ def main():
                 st.error("Passwords do not match")
 
         st.markdown("</div>", unsafe_allow_html=True)
+
+    def send_request(login_email, gpus, hours, container, date, time, notes):
+        try:
+            # user = auth.create_user_with_email_and_password(signup_email, signup_password)
+            # st.success("Successfully signed up!")
+            db.child("cast_lab_users").child("requests").set({
+            "gpus": gpus,
+            "hours": hours,
+            "email": login_email,
+            "container": container,
+            "date": date,
+            "time": time,
+            "notes": notes
+            })
+        except:
+            st.error("Failed to create rquests")
+        
+    
         
     if login:
         try:
@@ -267,7 +285,7 @@ def main():
 
                     # Button to send the request
                     if st.button("Send Request"):
-                        send_request(gpus, hours, container, date, time, notes)
+                        send_request(login_email, gpus, hours, container, date, time, notes)
             elif status == "Not verified":
                 st.markdown("**User not verified. Please wait for verification.**")
             elif status == "Admin":
@@ -319,7 +337,7 @@ def main():
 
                     # Button to send the request
                     if st.button("Send Request"):
-                        send_request(gpus, hours, container, date, time, notes)
+                        send_request(login_email, gpus, hours, container, date, time, notes)
                 elif option == 'History':
                     st.success("Requests History!")  
                 elif option == 'Account':
