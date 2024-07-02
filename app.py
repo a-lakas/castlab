@@ -285,6 +285,13 @@ def main():
 
                     # Button to send the request
                     if st.button("Send Request"):
+                        print(login_email)
+                        print(gpus)
+                        print(hours)
+                        print(container)
+                        print(date)
+                        print(time)
+                        print(notes)
                         send_request(login_email, gpus, hours, container, date, time, notes)
             elif status == "Not verified":
                 st.markdown("**User not verified. Please wait for verification.**")
@@ -337,6 +344,14 @@ def main():
 
                     # Button to send the request
                     if st.button("Send Request"):
+                        print(login_email)
+                        print(gpus)
+                        print(hours)
+                        print(container)
+                        print(date)
+                        print(time)
+                        print(notes)
+
                         send_request(login_email, gpus, hours, container, date, time, notes)
                 elif option == 'History':
                     st.success("Requests History!")  
