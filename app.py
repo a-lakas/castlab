@@ -410,7 +410,7 @@ def main():
                                             "notes": {request['notes']},
                                             "status": "approved"
                                         }
-                                        db.child("requests").child(request_id).update(request_data)
+                                        db.child("requests").child(request_id).set(request_data)
                                         st.success(f"Request {request_id} approved!")
 
                                     if reject_button:
