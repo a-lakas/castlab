@@ -399,7 +399,18 @@ def main():
 
                                     if approve_button:
                                         # Update status to 'approved' in the database
-                                        db.child("requests").child(request_id).update({"status": "approved"})
+                                        request_data = {
+                                            "request_id": request_id, 
+                                            "email": login_email,
+                                            "gpus": {request['gpus']},
+                                            "hours": {request['hours']},
+                                            "container": {request['container']},
+                                            "date": {request['date']},  # Convert date to string
+                                            "time": {request['time']},  # Convert time to string
+                                            "notes": {request['notes']},
+                                            "status": "approved"
+                                        }
+                                        db.child("requests").child(request_id).update(request_data)
                                         st.success(f"Request {request_id} approved!")
 
                                     if reject_button:
