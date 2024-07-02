@@ -200,6 +200,8 @@ def main():
                     st.success(signup_email)
                     st.success(signup_password)
                     st.success(signup_confirm_password)
+                    st.success(affiliation)
+
                     
                     user = auth.create_user_with_email_and_password(signup_email, signup_password)
                     st.success("Successfully signed up!")
