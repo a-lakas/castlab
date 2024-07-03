@@ -257,14 +257,14 @@ def main():
                 #         st.write(data)
                 #     else:
                 #         st.write("Connection failed")
-                option1 = st.radio("", ('Request Resources', 'History', 'Account'), horizontal=True)
+                option1 = st.radio("", ('Make Request', 'Request History', 'Account'), horizontal=True)
                 if option1 == 'Account':
                     try:
                         user_data = db.child("cast_lab_users").child(user['localId']).get().val()
                         display_user_data(user_data)
                     except:
                         st.error("Error fetching user")
-                elif option1 == 'History':
+                elif option1 == 'Request History':
                     try:
                         # Fetch all requests from the Firebase database
                         all_requests = db.child("requests").get().val()
@@ -305,7 +305,7 @@ def main():
         
                     except Exception as e:
                         st.error(f"Error fetching requests: {str(e)}") 
-                elif option1 == 'Request Resources':
+                elif option1 == 'Make Request':
                     # Input fields for the form
                     col9, col10 = st.columns([1, 1])  # Adjust column ratios as needed
 
@@ -348,14 +348,14 @@ def main():
                 #         st.write(data)
                 #     else:
                 #         st.write("Connection failed")
-                option = st.radio("", ('Request Resources', 'Manage Users', 'History', 'Account'), horizontal=True)
+                option = st.radio("", ('Make Request', 'Manage Users', 'Manage Request', 'Account'), horizontal=True)
                 if option == 'Manage Users':
                     try:
                         user_data = db.child("cast_lab_users").get().val()
                         display_all_user_data(user_data)
                     except:
                         st.error("Error fetching user")
-                elif option == 'Request Resources':
+                elif option == 'Make Request':
                     # Input fields for the form
                     col5, col6 = st.columns([1, 1])  # Adjust column ratios as needed
         
@@ -386,7 +386,7 @@ def main():
                     if st.button("Send Request"):
                         send_request(login_email, gpus, hours, container, date, time, notes)
 
-                elif option == 'History':    
+                elif option == 'Manage Request':    
                     try:
                         # Fetch all requests from the Firebase database
                         all_requests = db.child("requests").get().val()
