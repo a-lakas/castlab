@@ -399,6 +399,7 @@ def main():
 
                                     if approve_button:
                                         db.child("requests").child(request['request_id']).update({"status": "approved"})
+                                        send_approval_email(request['email'], request['request_id'])
                                         st.success(f"Request {request['request_id']} approved!")
 
                                     if reject_button:
@@ -598,6 +599,22 @@ def send_request(login_email, gpus, hours, container, date, time, notes):
     except Exception as e:
         st.error(f"Failed to create request: {str(e)}")
 
-        
+# Function to call Firebase Cloud Function for sending approval email
+def send_approval_email(user_email, request_id):
+    try:
+        url = "https://<YOUR_REGION>-<YOUR_PROJECT_ID>.cloudfunctions.net/sendApprovalEmail"
+        data = {
+            "email": user_email,
+            "requestId": request_id
+        }
+        headers = {'Content-Type': 'application/json'}
+        response = requests.post(url, headers=headers, data=json.dumps(data))
+        if response.status_code == 200:
+            st.success("Approval email sent successfully!")
+        else:
+            st.error(f"Failed to send email: {response.content.decode()}")
+    except Exception as e:
+        st.error(f"Error: {str(e)}")
+
 if __name__ == "__main__":
     main()
