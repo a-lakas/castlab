@@ -2,4 +2,4 @@ streamlit
 pyrebase4 
 pyspark
 paramiko
-smtplib
+secure-smtplib
