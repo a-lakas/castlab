@@ -398,26 +398,13 @@ def main():
                                     reject_button = st.button(f"Reject Request {request['request_id']}")
 
                                     if approve_button:
-                                        # Update status to 'approved' in the database
-                                        # request_data = {
-                                        #     "request_id": request_id, 
-                                        #     "email": login_email,
-                                        #     "gpus": {request['gpus']},
-                                        #     "hours": {request['hours']},
-                                        #     "container": {request['container']},
-                                        #     "date": {request['date']},  # Convert date to string
-                                        #     "time": {request['time']},  # Convert time to string
-                                        #     "notes": {request['notes']},
-                                        #     "status": "approved"
-                                        # }
-                                        # db.child("requests").child(request_id).set(request_data)
                                         db.child("requests").child(request['request_id']).update({"status": "approved"})
                                         st.success(f"Request {request['request_id']} approved!")
 
                                     if reject_button:
                                         # Update status to 'rejected' in the database
-                                        db.child("requests").child(request_id).update({"status": "rejected"})
-                                        st.warning(f"Request {request_id} rejected!")
+                                        db.child("requests").child(request['request_id']).update({"status": "rejected"})
+                                        st.warning(f"Request {request['request_id']} rejected!")
 
                                     st.markdown(
                                         "<hr style='border: 2px solid #f3f3f3; margin-top: 20px; margin-bottom: 20px;'>",
