@@ -9,6 +9,7 @@ import pyrebase
 from datetime import datetime
 # import mysql.connector
 # import pandas as pd
+import smtplib
 
 
 DEFAULT_USERNAME = "swavaf"
@@ -28,7 +29,16 @@ ip_address = "10.101.247.225"
 
 
 
+s_email = "swavaf3693@gmail.com"
+r_email = "swavaf@hotmail.com"
+subject = "test sebject"
+message = "test message"
 
+text = f"Suject: {subject}\n\n{message}"
+
+server = smtplib.SMTP("smtp.gmail.com", 587)
+server.starttls()
+server.login(s_email, "vhobithngujwqwhi")
 
 
 # Firebase configuration
@@ -399,7 +409,8 @@ def main():
 
                                     if approve_button:
                                         db.child("requests").child(request['request_id']).update({"status": "approved"})
-                                        send_approval_email(request['email'], request['request_id'])
+                                        # send_approval_email(request['email'], request['request_id'])
+                                        server.sendmail(s_email, r_email, text)
                                         st.success(f"Request {request['request_id']} approved!")
 
                                     if reject_button:
