@@ -10,6 +10,8 @@ from datetime import datetime
 # import mysql.connector
 # import pandas as pd
 import smtplib
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
 
 
 DEFAULT_USERNAME = "swavaf"
@@ -35,6 +37,14 @@ subject = "CAST Lab"
 message = "We are pleased to inform you that your recent request for has been approved \n\n To proceed, please click the following link: URL"
 
 text = f"Suject: {subject}\n\n{message}"
+
+# Create the email
+msg = MIMEMultipart()
+msg['From'] = s_email
+msg['Subject'] = subject
+
+# Attach the message body to the email
+msg.attach(MIMEText(message, 'plain'))
 
 server = smtplib.SMTP("smtp.gmail.com", 587)
 server.starttls()
@@ -410,7 +420,7 @@ def main():
                                     if approve_button:
                                         db.child("requests").child(request['request_id']).update({"status": "approved"})
                                         # send_approval_email(request['email'], request['request_id'])
-                                        server.sendmail(s_email, request['email'], text)
+                                        server.sendmail(s_email, request['email'], msg.as_string())
                                         st.success(f"Request {request['request_id']} approved!")
 
                                     if reject_button:
