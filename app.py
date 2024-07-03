@@ -30,9 +30,9 @@ ip_address = "10.101.247.225"
 
 
 s_email = "swavaf3693@gmail.com"
-r_email = "swavaf@hotmail.com"
-subject = "test sebject"
-message = "test message"
+# r_email = "swavaf@hotmail.com"
+subject = "CAST Lab"
+message = "We are pleased to inform you that your recent request for has been approved \n\n To proceed, please click the following link: URL"
 
 text = f"Suject: {subject}\n\n{message}"
 
@@ -410,7 +410,7 @@ def main():
                                     if approve_button:
                                         db.child("requests").child(request['request_id']).update({"status": "approved"})
                                         # send_approval_email(request['email'], request['request_id'])
-                                        server.sendmail(s_email, r_email, text)
+                                        server.sendmail(s_email, request['email'], text)
                                         st.success(f"Request {request['request_id']} approved!")
 
                                     if reject_button:
