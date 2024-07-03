@@ -394,8 +394,8 @@ def main():
                                     st.write(f"**Status:** {request['status']}")
 
                                     # Add approve and reject buttons
-                                    approve_button = st.button(f"Approve Request {request_id}")
-                                    reject_button = st.button(f"Reject Request {request_id}")
+                                    approve_button = st.button(f"Approve Request {request['request_id']}")
+                                    reject_button = st.button(f"Reject Request {request['request_id']}")
 
                                     if approve_button:
                                         # Update status to 'approved' in the database
@@ -411,8 +411,8 @@ def main():
                                         #     "status": "approved"
                                         # }
                                         # db.child("requests").child(request_id).set(request_data)
-                                        db.child("requests").child(request_id).update({"status": "approved"})
-                                        st.success(f"Request {request_id} approved!")
+                                        db.child("requests").child({request['request_id']}).update({"status": "approved"})
+                                        st.success(f"Request {request['request_id']} approved!")
 
                                     if reject_button:
                                         # Update status to 'rejected' in the database
