@@ -400,6 +400,7 @@ def main():
                             if user_requests:
                                 for request_id, request in enumerate(user_requests):
                                     # Display request details
+                                    st.success(f"**Request ID:** {request['request_id']}")
                                     col1, col2 = st.columns(2)
                                     with col1:
                                         st.write(f"**Number of GPUs:** {request['gpus']}")
