@@ -411,7 +411,7 @@ def main():
                                         #     "status": "approved"
                                         # }
                                         # db.child("requests").child(request_id).set(request_data)
-                                        db.child("requests").child({request['request_id']}).update({"status": "approved"})
+                                        db.child("requests").child(request['request_id']).update({"status": "approved"})
                                         st.success(f"Request {request['request_id']} approved!")
 
                                     if reject_button:
