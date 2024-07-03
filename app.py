@@ -277,7 +277,7 @@ def main():
             
                             if user_requests:
                                 for request in user_requests:
-                                    # st.success(f"**Request ID:** {request_id}")  # Displaying each request
+                                    st.success(f"**Request ID:** {request['request_id']}")
 
                                     col1, col2 = st.columns(2)
                                     with col1:
