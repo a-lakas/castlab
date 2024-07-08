@@ -293,6 +293,12 @@ def main():
                                     # Display the status of the request
                                     st.write(f"**Status:** {request['status']}")
 
+                                    delete_button = st.button(f"Delete Request {request['request_id']}", key=f"delete_{request['request_id']}")
+                                    if delete_button:
+                                        db.child("requests").child(request['request_id']).remove()
+                                        st.info(f"Request {request['request_id']} deleted!")
+
+
                                     st.markdown(
                                         "<hr style='border: 2px solid #f3f3f3; margin-top: 20px; margin-bottom: 20px;'>",
                                         unsafe_allow_html=True,
