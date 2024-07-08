@@ -432,7 +432,7 @@ def main():
                                         st.warning(f"Request {request['request_id']} rejected!")
 
                                     if delete_button:
-                                        db.delete(f"/requests/{request['request_id']}", None)
+                                        db.child("requests").child(request['request_id']).delete()
                                         st.info(f"Request {request['request_id']} deleted!")
 
                                     st.markdown(
