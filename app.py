@@ -417,6 +417,8 @@ def main():
                                     # Add approve and reject buttons
                                     approve_button = st.button(f"Approve Request {request['request_id']}")
                                     reject_button = st.button(f"Reject Request {request['request_id']}")
+                                    delete_button = st.button(f"Delete Request {request['request_id']}", key=f"delete_{request['request_id']}")
+
 
                                     if approve_button:
                                         db.child("requests").child(request['request_id']).update({"status": "approved"})
@@ -428,6 +430,10 @@ def main():
                                         # Update status to 'rejected' in the database
                                         db.child("requests").child(request['request_id']).update({"status": "rejected"})
                                         st.warning(f"Request {request['request_id']} rejected!")
+
+                                    if delete_button:
+                                        db.delete(f"/requests/{request['request_id']}", None)
+                                        st.info(f"Request {request['request_id']} deleted!")
 
                                     st.markdown(
                                         "<hr style='border: 2px solid #f3f3f3; margin-top: 20px; margin-bottom: 20px;'>",
