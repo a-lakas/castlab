@@ -291,13 +291,13 @@ def main():
 
                                     col1, col2 = st.columns(2)
                                     with col1:
-                                        st.write(f"**Number of GPUs:** {request['gpus']}")
-                                        st.write(f"**Hours Requested:** {request['hours']}")
-                                        st.write(f"**Container:** {request['container']}")
+                                        st.write(f"**Number of GPUs:** {request['gpus']}", disabled=True)
+                                        st.write(f"**Hours Requested:** {request['hours']}", disabled=True)
+                                        st.write(f"**Container:** {request['container']}", disabled=True)
 
                                     with col2:
-                                        st.write(f"**Date:** {request['date']}")
-                                        st.write(f"**Time:** {request['time']}")
+                                        st.write(f"**Date:** {request['date']}", disabled=True)
+                                        st.write(f"**Time:** {request['time']}", disabled=True)
                                         st.write(f"**Notes:** {request['notes']}")
 
                                     # Display the status of the request
