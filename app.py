@@ -35,6 +35,8 @@ s_email = "swavaf3693@gmail.com"
 # r_email = "swavaf@hotmail.com"
 subject = "CAST Lab"
 message = "We are pleased to inform you that your recent request for has been approved \n\n To proceed, please click the following link: URL"
+messageReject = "We are pleased to inform you that your recent request for has been rejected \n\n, please try again"
+
 
 text = f"Suject: {subject}\n\n{message}"
 
@@ -45,6 +47,14 @@ msg['Subject'] = subject
 
 # Attach the message body to the email
 msg.attach(MIMEText(message, 'plain'))
+
+# Create the email
+msgRjct = MIMEMultipart()
+msgRjct['From'] = s_email
+msgRjct['Subject'] = subject
+
+# Attach the message body to the email
+msgRjct.attach(MIMEText(messageReject, 'plain'))
 
 server = smtplib.SMTP("smtp.gmail.com", 587)
 server.starttls()
@@ -416,9 +426,12 @@ def main():
                                         st.write(f"**Date:** {request['date']}")
                                         st.write(f"**Time:** {request['time']}")
                                         st.write(f"**Notes:** {request['notes']}")
+                                    with col3:
+                                        st.write(f"**Status:** {request['status']}")
+                                        st.write(f"**Email:** {request['email']}")
 
                                     # Display the status of the request
-                                    st.write(f"**Status:** {request['status']}")
+                                    
 
                                     # Add approve and reject buttons
                                     approve_button = st.button(f"Approve Request {request['request_id']}")
@@ -435,6 +448,7 @@ def main():
                                     if reject_button:
                                         # Update status to 'rejected' in the database
                                         db.child("requests").child(request['request_id']).update({"status": "rejected"})
+                                        server.sendmail(s_email, request['email'], msgRjct.as_string())
                                         st.warning(f"Request {request['request_id']} rejected!")
 
                                     if delete_button:
