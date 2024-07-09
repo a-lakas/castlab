@@ -326,10 +326,10 @@ def main():
                     col9, col10 = st.columns([1, 1])  # Adjust column ratios as needed
 
                     with col9:
-                        gpus = st.number_input("Number of GPUs required", min_value=1, step=1, disabled=True)
+                        gpus = st.number_input("Number of GPUs required", min_value=1, step=1)
         
                     with col10:
-                        hours = st.number_input("Number of hours", min_value=1, step=1, disabled=True)
+                        hours = st.number_input("Number of hours", min_value=1, step=1)
 
                     # container = st.selectbox("Select a container", ["Container 1", "Container 2", "Container 3"])
                     container = "Container 1"
@@ -338,10 +338,10 @@ def main():
                     col11, col12 = st.columns([1, 1])  # Adjust column ratios as needed
         
                     with col11:
-                        date = st.date_input("Select a date", value=datetime.today(), disabled=True)
+                        date = st.date_input("Select a date", value=datetime.today())
         
                     with col12:
-                        time = st.time_input("Select a time", value=datetime.now().time(), disabled=True)
+                        time = st.time_input("Select a time", value=datetime.now().time())
 
                     # Additional notes
                     notes = st.text_area("Additional Notes")
@@ -376,10 +376,10 @@ def main():
                     col5, col6 = st.columns([1, 1])  # Adjust column ratios as needed
         
                     with col5:
-                        gpus = st.number_input("Number of GPUs required", min_value=1, step=1, disabled=True)
+                        gpus = st.number_input("Number of GPUs required", min_value=1, step=1)
         
                     with col6:
-                        hours = st.number_input("Number of hours", min_value=1, step=1, disabled=True)
+                        hours = st.number_input("Number of hours", min_value=1, step=1)
                     
                     
                     # container = st.selectbox("Select a container", ["Container 1", "Container 2", "Container 3"])
@@ -387,10 +387,10 @@ def main():
                     col7, col8 = st.columns([1, 1])  # Adjust column ratios as needed
         
                     with col7:
-                        date = st.date_input("Select a date", value=datetime.today(), disabled=True)
+                        date = st.date_input("Select a date", value=datetime.today())
         
                     with col8:
-                        time = st.time_input("Select a time", value=datetime.now().time(), disabled=True)
+                        time = st.time_input("Select a time", value=datetime.now().time())
 
                     # Date and time input
                     
