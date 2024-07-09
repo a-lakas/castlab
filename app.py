@@ -434,9 +434,9 @@ def main():
                                     
 
                                     # Add approve and reject buttons
-                                    approve_button = st.button(f"Approve Request {request['request_id']}")
-                                    reject_button = st.button(f"Reject Request {request['request_id']}")
-                                    delete_button = st.button(f"Delete Request {request['request_id']}", key=f"delete_{request['request_id']}")
+                                    approve_button = st.button(f"Approve")
+                                    reject_button = st.button(f"Reject")
+                                    delete_button = st.button(f"Delete", key=f"delete_{request['request_id']}")
 
 
                                     if approve_button:
