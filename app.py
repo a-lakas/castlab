@@ -291,13 +291,13 @@ def main():
 
                                     col1, col2 = st.columns(2)
                                     with col1:
-                                        st.write(f"**Number of GPUs:** {request['gpus']}", disabled=True)
-                                        st.write(f"**Hours Requested:** {request['hours']}", disabled=True)
-                                        st.write(f"**Container:** {request['container']}", disabled=True)
+                                        st.write(f"**Number of GPUs:** {request['gpus']}")
+                                        st.write(f"**Hours Requested:** {request['hours']}")
+                                        st.write(f"**Container:** {request['container']}")
 
                                     with col2:
-                                        st.write(f"**Date:** {request['date']}", disabled=True)
-                                        st.write(f"**Time:** {request['time']}", disabled=True)
+                                        st.write(f"**Date:** {request['date']}")
+                                        st.write(f"**Time:** {request['time']}")
                                         st.write(f"**Notes:** {request['notes']}")
 
                                     # Display the status of the request
@@ -326,10 +326,10 @@ def main():
                     col9, col10 = st.columns([1, 1])  # Adjust column ratios as needed
 
                     with col9:
-                        gpus = st.number_input("Number of GPUs required", min_value=1, step=1)
+                        gpus = st.number_input("Number of GPUs required", min_value=1, step=1, disabled=True)
         
                     with col10:
-                        hours = st.number_input("Number of hours", min_value=1, step=1)
+                        hours = st.number_input("Number of hours", min_value=1, step=1, disabled=True)
 
                     # container = st.selectbox("Select a container", ["Container 1", "Container 2", "Container 3"])
                     container = "Container 1"
@@ -338,10 +338,10 @@ def main():
                     col11, col12 = st.columns([1, 1])  # Adjust column ratios as needed
         
                     with col11:
-                        date = st.date_input("Select a date", value=datetime.today())
+                        date = st.date_input("Select a date", value=datetime.today(), disabled=True)
         
                     with col12:
-                        time = st.time_input("Select a time", value=datetime.now().time())
+                        time = st.time_input("Select a time", value=datetime.now().time(), disabled=True)
 
                     # Additional notes
                     notes = st.text_area("Additional Notes")
@@ -376,10 +376,10 @@ def main():
                     col5, col6 = st.columns([1, 1])  # Adjust column ratios as needed
         
                     with col5:
-                        gpus = st.number_input("Number of GPUs required", min_value=1, step=1)
+                        gpus = st.number_input("Number of GPUs required", min_value=1, step=1, disabled=True)
         
                     with col6:
-                        hours = st.number_input("Number of hours", min_value=1, step=1)
+                        hours = st.number_input("Number of hours", min_value=1, step=1, disabled=True)
                     
                     
                     # container = st.selectbox("Select a container", ["Container 1", "Container 2", "Container 3"])
@@ -387,10 +387,10 @@ def main():
                     col7, col8 = st.columns([1, 1])  # Adjust column ratios as needed
         
                     with col7:
-                        date = st.date_input("Select a date", value=datetime.today())
+                        date = st.date_input("Select a date", value=datetime.today(), disabled=True)
         
                     with col8:
-                        time = st.time_input("Select a time", value=datetime.now().time())
+                        time = st.time_input("Select a time", value=datetime.now().time(), disabled=True)
 
                     # Date and time input
                     
