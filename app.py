@@ -294,14 +294,17 @@ def main():
                                         st.write(f"**Number of GPUs:** {request['gpus']}")
                                         st.write(f"**Hours Requested:** {request['hours']}")
                                         st.write(f"**Container:** {request['container']}")
+                                        st.write(f"**Email:** {request['email']}")
+
 
                                     with col2:
                                         st.write(f"**Date:** {request['date']}")
                                         st.write(f"**Time:** {request['time']}")
                                         st.write(f"**Notes:** {request['notes']}")
+                                        st.write(f"**Status:** {request['status']}")
+
 
                                     # Display the status of the request
-                                    st.write(f"**Status:** {request['status']}")
 
                                     delete_button = st.button(f"Delete Request {request['request_id']}", key=f"delete_{request['request_id']}")
                                     if delete_button:
