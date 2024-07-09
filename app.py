@@ -35,7 +35,7 @@ s_email = "swavaf3693@gmail.com"
 # r_email = "swavaf@hotmail.com"
 subject = "CAST Lab"
 message = "We are pleased to inform you that your recent request for has been approved \n\n To proceed, please click the following link: URL"
-messageReject = "We are pleased to inform you that your recent request for has been rejected \n\n, please try again"
+messageReject = "We are pleased to inform you that your recent request for has been rejected, \n\n please try again"
 
 
 text = f"Suject: {subject}\n\n{message}"
