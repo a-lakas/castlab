@@ -580,7 +580,7 @@ def display_all_user_data(user_data):
         )  # Custom separator with style
 
 def display_user_data(user_data):
-    st.write("## User Details")
+    st.write("## Account Details")
     st.success("User Details")  
 
 
