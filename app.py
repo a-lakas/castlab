@@ -326,6 +326,7 @@ def main():
                         st.error(f"Error fetching requests: {str(e)}") 
                 elif option1 == 'Make Request':
                     # Input fields for the form
+                    st.write("## Make Request")
                     col9, col10 = st.columns([1, 1])  # Adjust column ratios as needed
 
                     with col9:
@@ -376,6 +377,7 @@ def main():
                         st.error("Error fetching user")
                 elif option == 'Make Request':
                     # Input fields for the form
+                    st.write("## Make Request")
                     col5, col6 = st.columns([1, 1])  # Adjust column ratios as needed
         
                     with col5:
@@ -578,7 +580,7 @@ def display_all_user_data(user_data):
         )  # Custom separator with style
 
 def display_user_data(user_data):
-    # st.write("## User Details")
+    st.write("## User Details")
     st.success("User Details")  
 
 
