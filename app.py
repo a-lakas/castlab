@@ -36,6 +36,7 @@ s_email = "swavaf3693@gmail.com"
 subject = "CAST Lab"
 message = "We are pleased to inform you that your recent request for has been approved \n\n To proceed, please click the following link: URL"
 messageReject = "We are pleased to inform you that your recent request for has been rejected, \n\n please try again"
+messageRegistartion = "We are pleased to inform you that your acount registration succesful"
 
 
 text = f"Suject: {subject}\n\n{message}"
@@ -55,6 +56,14 @@ msgRjct['Subject'] = subject
 
 # Attach the message body to the email
 msgRjct.attach(MIMEText(messageReject, 'plain'))
+
+# Create the email
+msgRgist = MIMEMultipart()
+msgRgist['From'] = s_email
+msgRgist['Subject'] = subject
+
+# Attach the message body to the email
+msgRgist.attach(MIMEText(messageRegistartion, 'plain'))
 
 server = smtplib.SMTP("smtp.gmail.com", 587)
 server.starttls()
@@ -228,6 +237,8 @@ def main():
                 try:
                     user = auth.create_user_with_email_and_password(signup_email, signup_password)
                     st.success("Successfully signed up!")
+                    server.sendmail(s_email, request['email'], msgRgist.as_string())
+                    st.success(f"Registration Successful")
                     db.child("cast_lab_users").child(user['localId']).set({
                         "userid": user['localId'],
                         "name": signup_name,
@@ -668,6 +679,7 @@ def send_approval_email(user_email, request_id):
             st.error(f"Failed to send email: {response.content.decode()}")
     except Exception as e:
         st.error(f"Error: {str(e)}")
+
 
 if __name__ == "__main__":
     main()
