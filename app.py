@@ -237,7 +237,7 @@ def main():
                 try:
                     user = auth.create_user_with_email_and_password(signup_email, signup_password)
                     st.success("Successfully signed up!")
-                    server.sendmail(s_email, request['email'], msgRgist.as_string())
+                    server.sendmail(s_email, signup_email, msgRgist.as_string())
                     st.success(f"Registration Successful")
                     db.child("cast_lab_users").child(user['localId']).set({
                         "userid": user['localId'],
