@@ -29,6 +29,7 @@ ip_address = "10.101.247.225"
 
 # cursor = connection.cursor()
 
+st.set_page_config(page_title="A100 Portal", page_icon='🗄️')
 
 
 s_email = "swavaf3693@gmail.com"
