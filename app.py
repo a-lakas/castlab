@@ -201,7 +201,7 @@ def main():
         st.markdown("<h2>Login</h2>", unsafe_allow_html=True)
         login_email = st.sidebar.text_input('Please enter your email address', value="", disabled=False)
         login_password = st.sidebar.text_input('Please enter your password',type = 'password', value="", disabled=False)
-        login = st.sidebar.checkbox('Login')
+        login = = st.button("Login") #st.sidebar.checkbox('Login')
 
         # st.markdown("<a href='#' id='forgot-password-link'>Forgot password?</a>", unsafe_allow_html=True)
 
